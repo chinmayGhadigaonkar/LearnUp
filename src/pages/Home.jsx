@@ -6,7 +6,7 @@ const Home = () => {
       <div className="bg-white text-black">
         <header className=" text-black h-80 py-auto sm:py-32 px-12">
           <h1 className="text-4xl font-bold">
-            Welcome to <span className=" text-red-500 ">LearnHub. </span>
+            Welcome to <span className=" text-red-500 ">LearnUp. </span>
           </h1>
           <p className="pt-2 text-lg">Your Gateway to Collaborative Learning</p>
           <button className="flex my-8   text-white bg-black border-0 py-2 px-8 focus:outline-none hover:bg-white hover:border-red-500  hover:border-2 hover:text-red-500 rounded text-lg">

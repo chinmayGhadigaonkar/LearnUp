@@ -8,6 +8,8 @@ import Home from './pages/Home';
 import AllQuestion from './components/QA/AllQuestion';
 import Blog from './components/blog/Blog';
 import Login from './pages/Login';
+import AskQuestion from './components/QA/AskQuestion';
+import SingleQuestion from './components/QA/SingleQuestion';
 
 const App = () => {
   return (
@@ -19,8 +21,11 @@ const App = () => {
       <Routes>
       <Route path='/' element={<Home />} />
       <Route path='/allquestion' element={<AllQuestion/>} />
+      <Route path='/askquestion' element={<AskQuestion/>} />
       <Route path='/blogs' element={<Blog/>} />
       <Route path='/login' element={<Login/>} />
+      <Route path='/singlequestion' element={<SingleQuestion/>} />
+
 
       
       </Routes>

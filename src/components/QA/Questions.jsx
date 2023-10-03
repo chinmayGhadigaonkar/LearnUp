@@ -19,9 +19,7 @@ const Questions = () => {
           </div>
           <div className='tags mt-4  flex space-x-3  '>
                 <li className=' list-none border-2  w-fit px-2 py-1 bg-red-500 text-white  border-none rounded-sm' >tags</li> 
-                <li className=' list-none border-2  w-fit px-2 py-1 bg-red-500 text-white  border-none  rounded-sm '>tags</li> 
-            
-             
+                <li className=' list-none border-2  w-fit px-2 py-1 bg-red-500 text-white  border-none  rounded-sm '>tags</li>             
           </div>
           <div className="my-3  flex justify-end ">
             <h2 className=' text-black cursor-pointer text-bold'>javaLearnMushigi</h2>
