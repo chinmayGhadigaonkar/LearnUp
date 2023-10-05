@@ -1,6 +1,8 @@
 import React from "react";
 import BlogItem from "./BlogItem";
+import { Link, useNavigate } from "react-router-dom";
 const Blog = () => {
+
   return (
     <>
       <div className="h-full mx-auto w-11/12">
@@ -12,7 +14,9 @@ const Blog = () => {
         </header>
 
         <div className="flex  flex-wrap mx-auto w-[80%] ">
-          <BlogItem />
+          
+          <BlogItem   />
+          
           <BlogItem />
           <BlogItem />
           <BlogItem />

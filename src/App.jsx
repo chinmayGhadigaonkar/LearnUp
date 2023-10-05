@@ -10,6 +10,9 @@ import Blog from './components/blog/Blog';
 import Login from './pages/Login';
 import AskQuestion from './components/QA/AskQuestion';
 import SingleQuestion from './components/QA/SingleQuestion';
+import AIChatPage from './components/ai/AIChatPage';
+import ContactUS from './pages/ContactUS';
+import BlogPost from './components/blog/BlogPost';
 
 const App = () => {
   return (
@@ -25,6 +28,10 @@ const App = () => {
       <Route path='/blogs' element={<Blog/>} />
       <Route path='/login' element={<Login/>} />
       <Route path='/singlequestion' element={<SingleQuestion/>} />
+      <Route path='/aichats' element={<AIChatPage/>} />
+      <Route path='/contactus' element={<ContactUS/>} />
+      <Route path='/BlogPost' element={<BlogPost/>} />
+
 
 
       

@@ -1,6 +1,6 @@
 import React from 'react'
 import author from '../../assets/author.png'
-
+import { Link } from 'react-router-dom'
 const BlogItem = () => {
   return (
     <>
@@ -55,7 +55,7 @@ const BlogItem = () => {
         time management tips, and more.
       </p>
       <div className="flex items-center flex-wrap">
-        <a className="text-red-500 inline-flex items-center md:mb-2 lg:mb-0">
+        <Link to="/BlogPost" className="text-red-500 inline-flex items-center md:mb-2 lg:mb-0">
           Learn More
           <svg
             className="w-4 h-4 ml-2"
@@ -69,7 +69,7 @@ const BlogItem = () => {
             <path d="M5 12h14"></path>
             <path d="M12 5l7 7-7 7"></path>
           </svg>
-        </a>
+        </Link>
         <span className="text-gray-400 mr-3 inline-flex items-center lg:ml-auto md:ml-0 ml-auto leading-none text-sm pr-3 py-1 border-r-2 border-gray-200">
           {/* <svg
             className="w-4 h-4 mr-1"
