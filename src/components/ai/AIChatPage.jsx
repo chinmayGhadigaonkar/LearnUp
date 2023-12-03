@@ -8,10 +8,11 @@ const AiAssistancePage = () => {
     if (newMessage.trim() !== '') {
       setMessages([...messages, { text: newMessage, user: 'user' }]);
       // Simulating a response from AI (you can replace this with actual AI integration)
-      setTimeout(() => {
-        setMessages([...messages, { text: 'Hello! How can I assist you today?', user: 'ai' }]);
-      }, 3000); // Simulating a response delay
+      // setTimeout(() => {
+      //   setMessages([...messages, { text: 'Hello! How can I assist you today?', user: 'ai' }]);
+      // }, 3000); // Simulating a response delay
       setNewMessage('');
+      // setMessages([...messages,{}])
     }
   };
 
@@ -28,7 +29,7 @@ const AiAssistancePage = () => {
               <div
                 key={index}
                 className={`mb-4 p-2 ${
-                  message.user === 'user' ? 'text-right' : 'text-left'
+                  message.user === 'user' ? 'text-left' : 'text-left'
                 }`}
               >
                 <div

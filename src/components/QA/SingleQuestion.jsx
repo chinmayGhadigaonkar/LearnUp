@@ -48,8 +48,6 @@ const SingleQuestion = () => {
             </div>
           </div>
         </div>
-
-        
       </div>
       <hr className=" border-1 border-solid border-black mt-2" />
       <AnsForm />
