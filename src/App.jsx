@@ -49,7 +49,7 @@ const App = () => {
           <Route path="/askquestion" element={<AskQuestion />} />
           <Route path="/blogs" element={<Blog />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/singlequestion" element={<SingleQuestion />} />
+          <Route path="/singlequestion/:id" element={<SingleQuestion />} />
           <Route path="/aichats" element={<AIChatPage />} />
           <Route path="/contactus" element={<ContactUS />} />
           <Route path="/BlogPost" element={<BlogPost />} />

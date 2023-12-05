@@ -9,12 +9,12 @@ const AllQuestion = () => {
   const navigate = useNavigate();
   return (
     <>
-      <div className="flex h-full px-2 py-3 w-full space-x-2">
-        {/* <div className=" h-full w-2/12 bg-red-500">
+      <div className="flex flex-1 h-full px-2 py-3 w-full space-x-2">
+        {/* <div className=" h-full w-3/12 bg-red-500">
           <li>Newest</li>
         </div> */}
 
-        <div className="w-11/12 mx-auto  my-2 ">
+        <div className="w-10/12 mx-auto  my-2 ">
           <header className="flex justify-between py-3 h-20  ">
             <h1 className="text-xl ml-2 font-semibold ">Top Questions</h1>
             <button
@@ -25,12 +25,16 @@ const AllQuestion = () => {
               Ask Question
             </button>
           </header>
-          <div>
-            <Link to="/singlequestion">
-              {questions.map((q) => {
-                return <Questions que={q} />;
-              })}
-            </Link>
+          <div className="flex-1 ">
+            {questions.map((q) => {
+              return (
+                <div key={q._id}>
+                  <Link to={`/singlequestion/${q._id}`}>
+                    <Questions que={q} />
+                  </Link>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>

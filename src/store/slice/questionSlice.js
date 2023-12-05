@@ -29,7 +29,7 @@ const questionSlice = createSlice({
       state.status = STATUSES.LOADING;
     });
     builder.addCase(CreateQuestion.fulfilled, (state, action) => {
-      // state.questions = action.payload;
+      state.questions = action.payload;
 
       state.status = STATUSES.IDLE;
     });
@@ -44,7 +44,6 @@ export const GetAllQuestion = createAsyncThunk("/GetAllQuestion", async () => {
     const res = await FetchRequest.get("question/getallquestion");
     const { success, questions } = res.data;
 
-    // console.log(questions);
     if (success) {
       return questions;
     }
@@ -60,7 +59,7 @@ export const CreateQuestion = createAsyncThunk(
     const option = JSON.stringify({
       title: title[0],
       description: description,
-      tags: tags[0],
+      tags: tags,
     });
 
     try {

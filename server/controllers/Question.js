@@ -7,15 +7,28 @@ export const getQuestion = expressAsyncHandler(async (req, res) => {
   res.status(200).json({ success: true, questions });
 });
 
+export const getSingleQuestion = expressAsyncHandler(async (req, res) => {
+  const question = await Question.findById(req.params.id);
+  if (question.length === 0) {
+    return res
+      .status(404)
+      .json({ success: false, msg: "No such Question in database " });
+  }
+
+  res.status(200).json({ success: true, question });
+});
+
 export const addQuestion = expressAsyncHandler(async (req, res) => {
   const { title, description, tags } = req.body;
-  const questions = await Question.create({
+
+  const question = await Question.create({
     user: req.user._id,
     title,
     description,
     tags,
   });
 
+  const questions = await Question.find();
   res.status(200).json({
     success: true,
     questions,

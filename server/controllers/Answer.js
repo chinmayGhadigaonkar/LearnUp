@@ -1,20 +1,36 @@
 import expressAsyncHandler from "express-async-handler";
 import Answer from "../models/answer.js";
+import Question from "../models/question.js";
 
 export const getanswer = expressAsyncHandler(async (req, res) => {
   const questionId = req.body;
+  const question = await Question.findById(questionId);
+  if (!question) {
+    return res
+      .status(404)
+      .json({ success: false, message: "Question not found" });
+  }
   const answer = await Answer.find({ question: questionId }).populate(
     "question",
   );
   if (!answer) {
-    return res.status(404).json({ message: "Answer not found" });
+    return res
+      .status(404)
+      .json({ success: false, message: "Answer not found" });
   }
 
-  res.status(200).json({ answer });
+  res.status(200).json({ success: true, answer });
 });
 
 export const addanswer = expressAsyncHandler(async (req, res) => {
   const { questionId, answer } = req.body;
+
+  const question = await Question.findById({ _id: questionId });
+  if (!question) {
+    return res
+      .status(404)
+      .json({ success: false, message: "Question not found" });
+  }
   const addanswer = await Answer({
     user: req.user._id,
     question: questionId,
@@ -25,7 +41,9 @@ export const addanswer = expressAsyncHandler(async (req, res) => {
     return res.status(404).json({ message: "something went to wrong " });
   }
 
-  res.status(200).json({ success: true, data: data });
+  res
+    .status(200)
+    .json({ success: true, answer: data, msg: " Answer added Successfully  " });
 });
 
 export const editanswer = expressAsyncHandler(async (req, res) => {
@@ -49,7 +67,11 @@ export const editanswer = expressAsyncHandler(async (req, res) => {
     { new: true },
   );
 
-  res.status(200).json({ success: true, data: updateAnswer });
+  res.status(200).json({
+    success: true,
+    data: updateAnswer,
+    msg: "Update Answer Successfully  ",
+  });
 });
 
 export const deleteAnswer = expressAsyncHandler(async (req, res) => {
