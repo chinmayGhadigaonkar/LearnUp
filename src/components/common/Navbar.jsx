@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { removeUser } from "../../store/slice/userSlice";
 import { toast } from "react-toastify";
+import { LogIn, LogOut } from "lucide-react";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -26,8 +27,8 @@ const Navbar = () => {
               fill="none"
               stroke="currentColor"
               strokeLinecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
+              strokeLinejoin="round"
+              strokeWidth="2"
               className="w-10 h-10 text-white p-2 bg-black rounded-full"
               viewBox="0 0 24 24">
               <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
@@ -65,7 +66,7 @@ const Navbar = () => {
                 navigate("/login");
               }}
               className="inline-flex items-center w-20 bg-red-500 text-white border-0 py-1 px-3 focus:outline-none hover:bg-white hover:text-red-500 hover:border-2 hover:border-red-500 rounded text-base mt-4 md:mt-0">
-              Login
+              Login <LogIn size={20} />
             </button>
           ) : (
             <button
@@ -73,7 +74,7 @@ const Navbar = () => {
                 handleonLogout();
               }}
               className="inline-flex items-center w-20 bg-red-500 text-white border-0 py-1 px-3 focus:outline-none hover:bg-white hover:text-red-500 hover:border-2 hover:border-red-500 rounded text-base mt-4 md:mt-0">
-              LogOut
+              LogOut <LogOut size={24} />
             </button>
           )}
         </div>

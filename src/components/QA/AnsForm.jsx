@@ -17,7 +17,13 @@ const AnsForm = ({ id }) => {
       questionId: id,
       answers: editorValue,
     };
+    if (!localStorage.getItem("auth-token")) {
+      toast.warning("Plz Login before add answer");
+      return;
+    }
+
     dispatch(AddAnswer(data));
+    setEditorValue("");
   };
 
   useEffect(() => {

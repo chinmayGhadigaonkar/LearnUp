@@ -33,6 +33,7 @@ const AskQuestion = () => {
   };
 
   const DeleteTag = (item) => {
+    console.log(item);
     let newArray = tag.filter((t) => t != item);
     setTag(newArray);
   };
@@ -63,7 +64,12 @@ const AskQuestion = () => {
     if (tagInput === "") {
       toast.error("cannot be empty");
     }
-
+    for (let index = 0; index < tag.length; index++) {
+      if (tag[index] == tagInput) {
+        toast.warn("Tag should be Unique");
+        return;
+      }
+    }
     setTag((prev) => [...prev, tagInput]);
     setTagInput("");
   };
@@ -138,9 +144,9 @@ const AskQuestion = () => {
                 </form>
                 <div className="tag-container flex space-x-2 my-3">
                   {tag &&
-                    tag.map((item) => (
+                    tag.map((item, index) => (
                       <li
-                        key={item}
+                        key={index}
                         className=" flex list-none border-2  w-fit px-2 py-1 bg-red-500 text-white  border-none rounded-sm">
                         {item}
                         <span

@@ -16,11 +16,14 @@ import AIChatPage from "./components/ai/AIChatPage";
 import ContactUS from "./pages/ContactUS";
 import BlogPost from "./components/blog/BlogPost";
 import SignUp from "./pages/SignUp";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { GetAllQuestion } from "./store/slice/questionSlice";
+import ProtectedRoutes from "./components/common/ProtectedRoutes";
 
 const App = () => {
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.user);
+  const isAuthenticate = user ? true : false;
   useEffect(() => {
     dispatch(GetAllQuestion());
   }, []);
@@ -46,15 +49,18 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/allquestion" element={<AllQuestion />} />
-          <Route path="/askquestion" element={<AskQuestion />} />
           <Route path="/blogs" element={<Blog />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/singlequestion/:id" element={<SingleQuestion />} />
-          <Route path="/aichats" element={<AIChatPage />} />
           <Route path="/contactus" element={<ContactUS />} />
-          <Route path="/BlogPost" element={<BlogPost />} />
           <Route path="/Signup" element={<SignUp />} />
-          <Route path="/createblog" element={<CreateBlog />} />
+
+          <Route element={<ProtectedRoutes isAuthenticate={isAuthenticate} />}>
+            <Route path="/askquestion" element={<AskQuestion />} />
+            <Route path="/singlequestion/:id" element={<SingleQuestion />} />
+            <Route path="/BlogPost" element={<BlogPost />} />
+            <Route path="/createblog" element={<CreateBlog />} />
+            <Route path="/aichats" element={<AIChatPage />} />
+          </Route>
         </Routes>
 
         <Footer />

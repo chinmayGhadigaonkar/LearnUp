@@ -2,13 +2,20 @@ import expressAsyncHandler from "express-async-handler";
 import Question from "../models/question.js";
 
 export const getQuestion = expressAsyncHandler(async (req, res) => {
-  const questions = await Question.find();
+  const questions = await Question.find().populate({
+    path: "user",
+    select: "-password",
+  });
 
   res.status(200).json({ success: true, questions });
 });
 
 export const getSingleQuestion = expressAsyncHandler(async (req, res) => {
-  const question = await Question.findById(req.params.id);
+  const question = await Question.findById(req.params.id).populate({
+    path: "user",
+    select: "-password",
+  });
+
   if (question.length === 0) {
     return res
       .status(404)

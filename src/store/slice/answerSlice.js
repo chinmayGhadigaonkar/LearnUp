@@ -28,7 +28,7 @@ const answerSlice = createSlice({
         state.status = STATUSES.LOADING;
       }),
       builder.addCase(AddAnswer.fulfilled, (state, action) => {
-        state.answer = action.payload;
+        state.answer = [...state.answer, action.payload];
         state.status = STATUSES.IDLE;
       }),
       builder.addCase(AddAnswer.rejected, (state, action) => {
@@ -37,7 +37,7 @@ const answerSlice = createSlice({
   },
 });
 
-export const GetAllAnswer = createAsyncThunk("/GetAllQuestion", async (id) => {
+export const GetAllAnswer = createAsyncThunk("/GetAllAnswer", async (id) => {
   try {
     const option = JSON.stringify({
       _id: id,
@@ -54,7 +54,7 @@ export const GetAllAnswer = createAsyncThunk("/GetAllQuestion", async (id) => {
   }
 });
 
-export const AddAnswer = createAsyncThunk("/AddQuestion", async (data) => {
+export const AddAnswer = createAsyncThunk("/Addanswer", async (data) => {
   try {
     const { questionId, answers } = data;
     const option = JSON.stringify({
@@ -66,6 +66,7 @@ export const AddAnswer = createAsyncThunk("/AddQuestion", async (data) => {
     // console.log(answer);
 
     if (success) {
+      toast.success("Your answer added successfully");
       return answer;
     }
   } catch (error) {

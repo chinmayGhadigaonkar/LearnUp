@@ -49,3 +49,11 @@ export const loginuser = expressAsyncHandler(async (req, res) => {
   }
   setToken(user, 201, res);
 });
+
+export const findUser = expressAsyncHandler(async (req, res) => {
+  const _id = req.params;
+
+  const user = await User.findById(_id);
+
+  res.status(200).json({ success: true, user });
+});
