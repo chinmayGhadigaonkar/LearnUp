@@ -1,10 +1,15 @@
 import { Router } from "express";
-import { addblog, editblog, getallblog } from "../controllers/Blog.js";
+import {
+  addblog,
+  editblog,
+  getallblog,
+  getoneblog,
+} from "../controllers/Blog.js";
 import { authMiddleware } from "../middleware/authMiddleware.js";
 
 const blog = Router();
 
-blog.get("/getallblog", getallblog);
+blog.get("/getallblog", getallblog).get("/getblog/:id", getoneblog);
 blog.post("/addblog", authMiddleware, addblog);
 blog.put("/editblog/:id", authMiddleware, editblog);
 

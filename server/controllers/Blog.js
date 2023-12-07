@@ -7,6 +7,12 @@ export const getallblog = expressAsyncHandler(async (req, res) => {
   res.status(200).json({ success: true, blogs });
 });
 
+export const getoneblog = expressAsyncHandler(async (req, res) => {
+  const blogs = await Blog.findById(req.params.id);
+
+  res.status(200).json({ success: true, blogs });
+});
+
 export const addblog = expressAsyncHandler(async (req, res) => {
   const { title, content, image, readtime } = req.body;
 

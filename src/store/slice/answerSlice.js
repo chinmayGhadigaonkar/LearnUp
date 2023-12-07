@@ -14,24 +14,24 @@ const answerSlice = createSlice({
     status: "idle",
   },
   extraReducers: (builder) => {
-    builder.addCase(GetAllAnswer.pending, (state, action) => {
+    builder.addCase(GetAllAnswer.pending, (state) => {
       state.status = STATUSES.LOADING;
     }),
       builder.addCase(GetAllAnswer.fulfilled, (state, action) => {
         state.answer = action.payload;
         state.status = STATUSES.IDLE;
       }),
-      builder.addCase(GetAllAnswer.rejected, (state, action) => {
+      builder.addCase(GetAllAnswer.rejected, (state) => {
         state.status = STATUSES.ERROR;
       }),
-      builder.addCase(AddAnswer.pending, (state, action) => {
+      builder.addCase(AddAnswer.pending, (state) => {
         state.status = STATUSES.LOADING;
       }),
       builder.addCase(AddAnswer.fulfilled, (state, action) => {
         state.answer = [...state.answer, action.payload];
         state.status = STATUSES.IDLE;
       }),
-      builder.addCase(AddAnswer.rejected, (state, action) => {
+      builder.addCase(AddAnswer.rejected, (state) => {
         state.status = STATUSES.ERROR;
       });
   },

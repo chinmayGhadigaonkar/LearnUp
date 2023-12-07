@@ -1,13 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import BlogItem from "./BlogItem";
 import { Link, useNavigate } from "react-router-dom";
 import ProfileSidebar from "../profile/ProfileSideBar";
+import { useDispatch, useSelector } from "react-redux";
+import { GetAllBlog } from "../../store/slice/blogSlice";
 const Blog = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { blogs } = useSelector((state) => state.blog);
+  console.log(blogs);
+
+  useEffect(() => {
+    dispatch(GetAllBlog());
+  }, []);
+
   return (
     <>
-      <div className="flex ">
-        <ProfileSidebar></ProfileSidebar>
+      <div className="flex  flex-1">
+        {/* <ProfileSidebar></ProfileSidebar> */}
         <div className="h-full mx-auto w-11/12">
           <header className="flex justify-between py-3 h-20  ">
             <h1 className="text-xl ml-2 font-semibold ">Top Blogs</h1>
@@ -21,16 +32,10 @@ const Blog = () => {
           </header>
 
           <div className="flex  flex-wrap mx-auto w-[80%] ">
-            <BlogItem />
-
-            <BlogItem />
-            <BlogItem />
-            <BlogItem />
-            <BlogItem />
-            <BlogItem />
-            <BlogItem />
-            <BlogItem />
-            <BlogItem />
+            {blogs &&
+              blogs.map((Item) => {
+                return <BlogItem blog={Item} />;
+              })}
           </div>
         </div>
       </div>

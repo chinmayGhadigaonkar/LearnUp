@@ -57,7 +57,7 @@ const App = () => {
           <Route element={<ProtectedRoutes isAuthenticate={isAuthenticate} />}>
             <Route path="/askquestion" element={<AskQuestion />} />
             <Route path="/singlequestion/:id" element={<SingleQuestion />} />
-            <Route path="/BlogPost" element={<BlogPost />} />
+            <Route path="/BlogPost/:id" element={<BlogPost />} />
             <Route path="/createblog" element={<CreateBlog />} />
             <Route path="/aichats" element={<AIChatPage />} />
           </Route>

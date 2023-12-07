@@ -6,6 +6,7 @@ import FetchRequest from "../../utils/FetchRequest";
 import { useDispatch } from "react-redux";
 import { Triangle } from "lucide-react";
 import Answer from "./Answer";
+import formatDateDifference from "../../utils/FormatDate";
 
 const SingleQuestion = () => {
   const [upVote, setDownVote] = useState();
@@ -25,6 +26,28 @@ const SingleQuestion = () => {
     }
   };
 
+  // console.log(question.updatedAt);
+  // const createDate = formatDateDifference(question.updatedAt);
+
+  // console.log(createDate);
+
+  const originalTimestamp = new Date(question.updatedAt);
+  const originalTimestamp2 = new Date(question.createdAt);
+
+  const options = {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    timeZone: "Asia/Kolkata",
+  };
+  const formattedDate = originalTimestamp.toLocaleDateString("en-US", options);
+  const formattedDate2 = originalTimestamp2.toLocaleDateString(
+    "en-US",
+    options,
+  );
+
   useEffect(() => {
     getSingleQuestion(getparams.id);
   }, []);
@@ -33,6 +56,18 @@ const SingleQuestion = () => {
       {question && (
         <div className=" px-2 space-y-6 flex-1 py-10">
           <h1 className="text-3xl font-bold">{question.title}</h1>
+          <div className="flex">
+            <p className="">
+              {" "}
+              Asked : <span className=" font-semibold"> {formattedDate}</span>
+            </p>
+            <p className="px-3">
+              {" "}
+              Modified :{" "}
+              <span className=" font-semibold"> {formattedDate2}</span>
+            </p>
+          </div>
+
           <hr />
           <div className="flex  md:w-10/12 space-x-4">
             <div className="flex flex-col md:w-4/12">

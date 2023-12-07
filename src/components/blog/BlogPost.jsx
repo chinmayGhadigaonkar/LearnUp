@@ -1,11 +1,34 @@
 // components/BlogPost.js
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BlogComment from "../comments/BlogComment";
+import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import FetchRequest from "../../utils/FetchRequest";
 
 const BlogPost = () => {
   const [likes, setLikes] = useState(0);
   const [show, setShow] = useState(false);
+  const [blog, setBlog] = useState("");
+  console.log(blog);
 
+  const params = useParams();
+
+  const GetSingleBlog = async (id) => {
+    try {
+      const res = await FetchRequest.get(`blog/getblog/${id}`);
+      const { success, blogs } = res.data;
+
+      if (success) {
+        setBlog(blogs);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    GetSingleBlog(params.id);
+  }, []);
   const handleLikeClick = () => {
     setLikes(likes + 1);
   };
@@ -13,7 +36,7 @@ const BlogPost = () => {
   return (
     <div className="bg-white min-h-screen py-12">
       <div className="container mx-auto px-4">
-        <h1 className="text-4xl font-bold mb-6">Title of Your Blog Post</h1>
+        <h1 className="text-4xl font-bold mb-6">{blog.title}</h1>
         <p className="text-gray-300 text-lg mb-2">
           Published on October 5, 2023
         </p>
@@ -32,18 +55,11 @@ const BlogPost = () => {
             className="w-auto h- rounded-lg mx-auto mb-6"
           />
           <div className="text-gray-800 text-lg leading-relaxed">
-            <p>
-              This is the content of your blog post. You can write your blog
-              content here.
-            </p>
-            <p className="mt-4">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vel
-              ex et ante cursus sollicitudin. Quisque tristique, massa a
-              pharetra tincidunt, purus justo hendrerit arcu, a feugiat dolor
-              tellus ut justo. Vestibulum ante ipsum primis in faucibus orci
-              luctus et ultrices posuere cubilia Curae; Duis eu euismod dui.
-              Nunc congue arcu et dolor auctor, at pharetra sapien congue.
-            </p>
+            <p
+              className="leading-relaxed mb-3"
+              dangerouslySetInnerHTML={{
+                __html: blog.content,
+              }}></p>
           </div>
         </div>
         <div className="mt-8 text-gray-300">
