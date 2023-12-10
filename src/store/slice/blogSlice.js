@@ -67,13 +67,12 @@ export const GetSingleBlog = createAsyncThunk("/GetSingleBlog", async (id) => {
 export const AddBlog = createAsyncThunk("/AddBlog", async (data) => {
   try {
     const { title, content, image, readtime } = data;
-    const option = JSON.stringify({
-      title: title,
-      content: content,
-      image: image,
-      readtime: readtime,
-    });
-    const res = await FetchRequest.post("blog/addblog", option);
+
+    const res = await FetchRequest.post(
+      "blog/addblog",
+
+      data,
+    );
     const { success, blogs } = res.data;
     // console.log(blogs);
 

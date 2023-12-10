@@ -95,3 +95,53 @@ export const deleteQuestion = expressAsyncHandler(async (req, res) => {
     msg: "Your question is deleted successfully",
   });
 });
+
+export const questionLikes = expressAsyncHandler(async (req, res) => {
+  const findQuestion = await Question.findById(req.params.id);
+
+  // Check if findQuestion array is empty
+  if (findQuestion.length === 0) {
+    return res
+      .status(404)
+      .json({ success: false, msg: "No such Question in database " });
+  }
+
+  const data = findQuestion.likes + 1;
+
+  const questions = await Question.findByIdAndUpdate(
+    req.params.id,
+    { $set: { likes: data } },
+    { new: true },
+  );
+
+  res.status(200).json({
+    success: true,
+    questions,
+    msg: "Your question is updated successfully",
+  });
+});
+
+export const questiondisLikes = expressAsyncHandler(async (req, res) => {
+  const findQuestion = await Question.findById(req.params.id);
+
+  // Check if findQuestion array is empty
+  if (findQuestion.length === 0) {
+    return res
+      .status(404)
+      .json({ success: false, msg: "No such Question in database " });
+  }
+
+  const data = findQuestion.likes - 1;
+
+  const questions = await Question.findByIdAndUpdate(
+    req.params.id,
+    { $set: { likes: data } },
+    { new: true },
+  );
+
+  res.status(200).json({
+    success: true,
+    questions,
+    msg: "Your question is updated successfully",
+  });
+});

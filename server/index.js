@@ -8,6 +8,8 @@ import auth from "./routes/UserRoutes.js";
 import blog from "./routes/BlogRoutes.js";
 import cors from "cors";
 
+import { v2 as cloudinary } from "cloudinary";
+
 const app = express();
 env.config();
 
@@ -18,8 +20,15 @@ const corsOptions = {
   origin: ["http://localhost:5173", "*"],
   credentials: true, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
-
 app.use(cors(corsOptions));
+app.use(express.urlencoded({ extended: false }));
+
+//  Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.CLOUDINARY_SECRETE_KEY,
+});
 
 app.get("/", (req, res) => {
   res.send("Welcome to LearnUp app ");

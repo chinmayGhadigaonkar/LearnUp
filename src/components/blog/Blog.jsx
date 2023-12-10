@@ -9,24 +9,24 @@ const Blog = () => {
   const dispatch = useDispatch();
 
   const { blogs } = useSelector((state) => state.blog);
-  console.log(blogs);
 
+  console.log(blogs);
   useEffect(() => {
     dispatch(GetAllBlog());
   }, []);
 
   return (
     <>
-      <div className="flex  flex-1">
+      <div className="flex flex-1 h-full px-2 py-3 w-full space-x-2">
         {/* <ProfileSidebar></ProfileSidebar> */}
         <div className="h-full mx-auto w-11/12">
-          <header className="flex justify-between py-3 h-20  ">
-            <h1 className="text-xl ml-2 font-semibold ">Top Blogs</h1>
+          <header className="flex justify-between py-3 h-20   ">
+            <h1 className="text-xl ml-2 font-semibold  my-auto">Top Blogs</h1>
             <button
               onClick={() => {
                 navigate("/createblog");
               }}
-              className=" text-white bg-black border-0 py-1 px-2 h-10 focus:outline-none hover:bg-white hover:border-red-500  hover:border-2 hover:text-red-500 rounded text-lg ">
+              className=" my-auto text-white bg-black border-0 py-1 px-2 h-10 focus:outline-none hover:bg-white hover:border-red-500  hover:border-2 hover:text-red-500 rounded text-lg ">
               Create Your Blog
             </button>
           </header>

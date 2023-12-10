@@ -4,37 +4,50 @@ import "react-quill/dist/quill.snow.css";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { AddBlog } from "../../store/slice/blogSlice";
-import { useNavigate } from "react-router-dom";
+import { Form, useNavigate } from "react-router-dom";
+import { ConvertToBase64 } from "../../utils/ConverToBase64";
 
 const CreateBlog = () => {
   const [description, setDescription] = useState("");
   const [title, setTitle] = useState("");
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState();
   const [readTime, setreadTime] = useState(0);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   // Custom styles for ReactQuill
   // console.log(image);
-  const handleOnPost = () => {
+  const handleOnPost = (e) => {
+    e.preventDefault();
+
     if (title === "") {
       toast.warn("Title should not be blank");
       return;
     }
+
     if (description === "") {
       toast.warn("Description should not be blank");
       return;
     }
-    const data = {
-      title: title,
-      content: description,
-      image: image,
-      readtime: readTime,
-    };
-    dispatch(AddBlog(data));
+    // const input = new FormData();
+    const input = new FormData();
 
-    navigate("/blogs");
+    input.append("title", title);
+    input.append("content", description);
+    input.append("image", image);
+    input.append("readtime", readTime);
+
+    console.log(input);
+    dispatch(AddBlog(input));
+
+    // navigate("/blogs");
   };
 
+  const handleOnImage = async (e) => {
+    const file = e.target.files[0];
+    console.log(file);
+
+    setImage(file);
+  };
   const editorStyle = {
     background: "#f9f9fa",
     borderRadius: "3px ",
@@ -49,7 +62,6 @@ const CreateBlog = () => {
     zIndex: 2,
   };
 
-  console.log(image);
   return (
     <section className="text-gray-600 body-font">
       <div className=" md:px-5 py-8 md:py-24 ">
@@ -59,7 +71,9 @@ const CreateBlog = () => {
           </h1>
         </div>
         <div className="lg:w-3/3  md:w-3/3  ">
-          <div className="flex flex-col  flex-wrap -m-2">
+          <form
+            onSubmit={handleOnPost}
+            className="flex flex-col  flex-wrap -m-2">
             <div className="p-2 md:w-5/5 w-4/5">
               <div className="">
                 <label
@@ -86,6 +100,7 @@ const CreateBlog = () => {
                 </label>
                 <ReactQuill
                   theme="snow"
+                  name="description"
                   value={description}
                   onChange={(value) => setDescription(value)}
                   style={editorStyle} // Apply styles to the editor container
@@ -107,8 +122,8 @@ const CreateBlog = () => {
                   type="file"
                   id="image"
                   name="image"
-                  onChange={(e) => setImage(e.target.files[0])}
-                  accept="image/*"
+                  onChange={(e) => handleOnImage(e)}
+                  accept="image/png, image/gif, image/jpeg"
                   className=" h-12 mt-2 "
                 />
               </div>
@@ -134,12 +149,12 @@ const CreateBlog = () => {
 
             <div className="p-2 w-full">
               <button
-                onClick={() => handleOnPost()}
+                type="submit"
                 className="flex  text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded text-lg">
                 Post
               </button>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </section>

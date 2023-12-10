@@ -89,3 +89,57 @@ export const deleteAnswer = expressAsyncHandler(async (req, res) => {
     msg: "your answer is delete successfully ",
   });
 });
+
+export const likesOnAnswer = expressAsyncHandler(async (req, res) => {
+  const findAnswer = await Answer.findById(req.params.id);
+  // console.log(findAnswer);
+
+  if (!findAnswer) {
+    res
+      .status(404)
+      .json({ success: false, msg: "No such Answer in database " });
+    return;
+  }
+  console.log(findAnswer.likes);
+
+  const data = findAnswer.likes + 1;
+
+  const updateAnswer = await Answer.findByIdAndUpdate(
+    req.params.id,
+    { $set: { likes: data } },
+    { new: true },
+  );
+
+  res.status(200).json({
+    success: true,
+    data: updateAnswer,
+    msg: "Update Answer Successfully  ",
+  });
+});
+
+export const dislikesOnAnswer = expressAsyncHandler(async (req, res) => {
+  const findAnswer = await Answer.findById(req.params.id);
+  // console.log(findAnswer);
+
+  if (!findAnswer) {
+    res
+      .status(404)
+      .json({ success: false, msg: "No such Answer in database " });
+    return;
+  }
+  console.log(findAnswer.likes);
+
+  const data = findAnswer.likes - 1;
+
+  const updateAnswer = await Answer.findByIdAndUpdate(
+    req.params.id,
+    { $set: { likes: data } },
+    { new: true },
+  );
+
+  res.status(200).json({
+    success: true,
+    data: updateAnswer,
+    msg: "Update Answer Successfully  ",
+  });
+});
