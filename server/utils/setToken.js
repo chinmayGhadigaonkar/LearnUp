@@ -1,6 +1,7 @@
 function setToken(user, statusCode, res) {
   const token = user.getJWTToken();
 
+  console.log(token);
   const option = {
     expires: new Date(Date.now()),
     httpOnly: true,

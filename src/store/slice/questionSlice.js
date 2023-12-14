@@ -77,5 +77,18 @@ export const CreateQuestion = createAsyncThunk(
   },
 );
 
+// export const questionLike = createAsyncThunk("/CreateQuestion", async (id) => {
+//   try {
+//     const res = await FetchRequest.post(`question/addquestion/${id}`, option);
+//     const { success, questions } = res.data;
+//     console.log(questions);
+//     if (success) {
+//       return questions.likes;
+//     }
+//   } catch (error) {
+//     console.log(error);
+//   }
+// });
+
 export const {} = questionSlice.actions;
 export default questionSlice.reducer;

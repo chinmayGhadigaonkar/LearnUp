@@ -4,7 +4,7 @@ const QuestionSchema = mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.ObjectId,
-      ref: "User",
+      ref: "ClerkAuth",
       require: true,
     },
     title: {
@@ -15,7 +15,12 @@ const QuestionSchema = mongoose.Schema(
       type: String,
       require: true,
     },
-    tags: [],
+    tags: [
+      {
+        type: [String],
+        require: true, // Assuming tags are strings
+      },
+    ],
     likes: {
       type: Number,
       default: 0,

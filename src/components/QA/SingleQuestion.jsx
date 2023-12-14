@@ -101,7 +101,7 @@ const SingleQuestion = () => {
                 }}></div>
               <div className="tags  flex space-x-3 my-2   ">
                 {question.tags &&
-                  question.tags.map((item) => {
+                  question.tags[0].map((item) => {
                     return (
                       <li
                         key={item}

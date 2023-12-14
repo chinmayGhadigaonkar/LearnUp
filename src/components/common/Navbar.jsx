@@ -1,13 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { removeUser } from "../../store/slice/userSlice";
 import { toast } from "react-toastify";
 import { LogIn, LogOut } from "lucide-react";
+import { SignInButton, UserButton, useAuth, useUser } from "@clerk/clerk-react";
+import SignIn from "../../pages/SignIn";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const Data = () => {
+    // token not define
+
+    return (
+      <>
+        {localStorage.getItem("auth-token") ? <UserButton /> : <SignInButton />}
+      </>
+    );
+  };
 
   const handleonLogout = () => {
     dispatch(removeUser());
@@ -59,7 +71,7 @@ const Navbar = () => {
               Contact Us
             </Link>
           </nav>
-
+          {/* 
           {!localStorage.getItem("auth-token") ? (
             <button
               onClick={() => {
@@ -76,7 +88,8 @@ const Navbar = () => {
               className="inline-flex items-center w-20 bg-red-500 text-white border-0 py-1 px-3 focus:outline-none hover:bg-white hover:text-red-500 hover:border-2 hover:border-red-500 rounded text-base mt-4 md:mt-0">
               LogOut <LogOut size={24} />
             </button>
-          )}
+          )} */}
+          <Data />
         </div>
       </header>
     </>

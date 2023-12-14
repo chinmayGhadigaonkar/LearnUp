@@ -71,5 +71,31 @@ export const createUser = createAsyncThunk(
   },
 );
 
+export const createClerkUser = createAsyncThunk(
+  "/createUser",
+  async (credential, { dispatch }) => {
+    const { userId, fullname, username, email } = credential;
+    const option = JSON.stringify({
+      userId: userId,
+      fullname: fullname,
+      username: username,
+      email: email,
+    });
+
+    try {
+      const res = await FetchRequest.post("clerkauth/adduser", option);
+      const { msg, success } = res.data;
+      if (success) {
+        toast.success("Registration successfully completed");
+        return success;
+      } else {
+        toast.error(msg);
+      }
+    } catch (error) {
+      toast.error("An error occurred");
+    }
+  },
+);
+
 export const { setUser, removeUser } = userSlice.actions;
 export default userSlice.reducer;

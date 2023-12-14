@@ -31,11 +31,21 @@ export const addanswer = expressAsyncHandler(async (req, res) => {
       .status(404)
       .json({ success: false, message: "Question not found" });
   }
+  // working
+  console.log(question);
+  if (req.user._id === question.user._id) {
+    console.log("sdasds ");
+    return res.status(404).json({
+      success: false,
+      message: "You have already answer for this question",
+    });
+  }
   const addanswer = await Answer({
     user: req.user._id,
     question: questionId,
     answer: answer,
   });
+
   const data = await addanswer.save();
   if (!data) {
     return res.status(404).json({ message: "something went to wrong " });

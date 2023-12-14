@@ -1,6 +1,89 @@
-import React from "react";
+import { useAuth, useUser } from "@clerk/clerk-react";
+import React, { useEffect } from "react";
+import { toast } from "react-toastify";
+import FetchRequest from "../utils/FetchRequest";
+import { useDispatch } from "react-redux";
+import { setUser } from "../store/slice/userSlice";
 
 const Home = () => {
+  const { userId } = useAuth();
+  const { isSignedIn, user } = useUser();
+  const dispatch = useDispatch();
+
+  const createClerkUser = async () => {
+    if (isSignedIn) {
+      const userData = user;
+      const email = userData.emailAddresses[0].emailAddress;
+      try {
+        const credential = {
+          userId,
+          fullname: userData.fullName,
+          username: userData.username,
+          email,
+        };
+
+        const options = JSON.stringify(credential);
+        const res = await FetchRequest.post("clerkauth/adduser", options);
+
+        const { success, msg } = res.data;
+
+        if (success) {
+          toast.success("Registration successfully completed");
+          return success;
+        } else {
+          toast.error(msg || "An error occurred");
+        }
+      } catch (error) {
+        toast.error("An error occurred");
+      }
+    }
+  };
+
+  const getUser = async () => {
+    if (isSignedIn) {
+      const userData = user;
+      const email = userData.emailAddresses[0].emailAddress;
+      console.log(email);
+      if (email !== undefined) {
+        try {
+          const res = await FetchRequest.get(
+            `clerkauth/getemail?email=${email}`,
+          );
+          const { success, token } = res.data;
+
+          console.log(success);
+          if (success) {
+            dispatch(setUser(token));
+            return success;
+          }
+
+          return success;
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    }
+  };
+
+  const init1 = async () => {
+    const req = await getUser();
+    return req;
+  };
+
+  const init2 = async () => {
+    await createClerkUser();
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await init1();
+      if (!res) {
+        init2();
+      }
+    };
+    fetchData();
+  }, [isSignedIn]);
+
   return (
     <>
       <div className="bg-white text-black">
@@ -13,7 +96,6 @@ const Home = () => {
             Explore More
           </button>
         </header>
-
 
         <section className="text-gray-900 body-font bg-white">
           <div className="container px-5 py-24 mx-auto">
@@ -36,9 +118,9 @@ const Home = () => {
                   <svg
                     fill="none"
                     stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
                     className="w-10 h-10"
                     viewBox="0 0 24 24">
                     <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
@@ -60,9 +142,9 @@ const Home = () => {
                     <svg
                       fill="none"
                       stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
                       className="w-4 h-4 ml-2"
                       viewBox="0 0 24 24">
                       <path d="M5 12h14M12 5l7 7-7 7"></path>
@@ -75,9 +157,9 @@ const Home = () => {
                   <svg
                     fill="none"
                     stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
                     className="w-10 h-10"
                     viewBox="0 0 24 24">
                     <circle cx="6" cy="6" r="3"></circle>

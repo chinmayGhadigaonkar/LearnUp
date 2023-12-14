@@ -1,5 +1,4 @@
 import React from "react";
-import { useSelector } from "react-redux";
 
 const Questions = ({ que }) => {
   const originalTimestamp = new Date(que.createdAt);
@@ -11,11 +10,9 @@ const Questions = ({ que }) => {
     minute: "numeric",
     timeZone: "Asia/Kolkata",
   };
+
   const formattedDate = originalTimestamp.toLocaleDateString("en-US", options);
   const { title, tags, likes, description } = que;
-  // let shortDescription =
-  //   description.length > 20 ? description.subStr(0, 20) + "...." : description;
-  const { answer } = useSelector((state) => state.answer);
 
   return (
     <>
@@ -39,10 +36,10 @@ const Questions = ({ que }) => {
                       : description,
                 }}></p>
             </div>
-            <div className="flex justify-between  space-x-12 w-12/12  my-4 ">
-              <div className="tags my-auto  flex space-x-3  ">
+            <div className="flex justify-between   w-12/12  my-4 ">
+              <div className="tags my-auto  flex   space-x-3  ">
                 {tags &&
-                  tags.map((item) => {
+                  tags[0].map((item) => {
                     return (
                       <li
                         key={item}

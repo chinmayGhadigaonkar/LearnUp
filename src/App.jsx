@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import React, { useEffect } from "react";
@@ -15,10 +15,19 @@ import SingleQuestion from "./components/QA/SingleQuestion";
 import AIChatPage from "./components/ai/AIChatPage";
 import ContactUS from "./pages/ContactUS";
 import BlogPost from "./components/blog/BlogPost";
-import SignUp from "./pages/SignUp";
+// import SignUp from "./pages/SignUp";
 import { useDispatch, useSelector } from "react-redux";
 import { GetAllQuestion } from "./store/slice/questionSlice";
 import ProtectedRoutes from "./components/common/ProtectedRoutes";
+import { VITE_CLERK_PUBLISHABLE_KEY } from "./utils/config";
+import {
+  ClerkProvider,
+  RedirectToSignIn,
+  SignUp,
+  SignedIn,
+  SignedOut,
+} from "@clerk/clerk-react";
+import SignIn from "./pages/SignIn";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -27,43 +36,56 @@ const App = () => {
   useEffect(() => {
     dispatch(GetAllQuestion());
   }, []);
+
+  // const navigate = useNavigate();
   return (
     <>
       <BrowserRouter>
-        <Navbar />
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-        />
-        {/* Same as */}
-        <ToastContainer />
+        <ClerkProvider publishableKey={VITE_CLERK_PUBLISHABLE_KEY}>
+          <Navbar />
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
+          {/* Same as */}
+          <ToastContainer />
 
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/allquestion" element={<AllQuestion />} />
-          <Route path="/blogs" element={<Blog />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/contactus" element={<ContactUS />} />
-          <Route path="/Signup" element={<SignUp />} />
+          <Routes>
+            <Route to="/" path="/" element={<Home />} />
+            <Route path="/allquestion" element={<AllQuestion />} />
+            <Route path="/blogs" element={<Blog />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/contactus" element={<ContactUS />} />
+            {/* <Route path="/Signup" element={<SignUp />} /> */}
+            <Route
+              path="/sign-in/*"
+              element={<SignIn routing="path" path="/sign-in" />}
+            />
+            <Route
+              path="/sign-up/*"
+              element={<SignUp routing="path" path="/sign-up" />}
+            />
 
-          <Route element={<ProtectedRoutes isAuthenticate={isAuthenticate} />}>
-            <Route path="/askquestion" element={<AskQuestion />} />
-            <Route path="/singlequestion/:id" element={<SingleQuestion />} />
-            <Route path="/BlogPost/:id" element={<BlogPost />} />
-            <Route path="/createblog" element={<CreateBlog />} />
-            <Route path="/aichats" element={<AIChatPage />} />
-          </Route>
-        </Routes>
+            <Route
+              element={<ProtectedRoutes isAuthenticate={isAuthenticate} />}>
+              <Route path="/askquestion" element={<AskQuestion />} />
+              <Route path="/singlequestion/:id" element={<SingleQuestion />} />
+              <Route path="/BlogPost/:id" element={<BlogPost />} />
+              <Route path="/createblog" element={<CreateBlog />} />
+              <Route path="/aichats" element={<AIChatPage />} />
+            </Route>
+          </Routes>
 
-        <Footer />
+          <Footer />
+        </ClerkProvider>
       </BrowserRouter>
     </>
   );
