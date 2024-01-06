@@ -85,5 +85,35 @@ export const AddBlog = createAsyncThunk("/AddBlog", async (data) => {
   }
 });
 
+export const AddComment = createAsyncThunk("/AddComment", async (data) => {
+  try {
+    const res = await FetchRequest.post("comments/addcomment", data);
+    const { success, comment } = res.data;
+    console.log(comment);
+
+    if (success) {
+      toast.success("Comment added successfully");
+      return;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// export const GetAllComment = createAsyncThunk("/GetComment", async () => {
+//   try {
+//     const res = await FetchRequest.get(`comments/getallcomment/${id}`);
+//     const { success, comment } = res.data;
+//     console.log(comment);
+
+//     if (success) {
+//       toast.success("Comment added successfully");
+//       return;
+//     }
+//   } catch (error) {
+//     console.log(error);
+//   }
+// });
+
 export const {} = blogSlice.actions;
 export default blogSlice.reducer;

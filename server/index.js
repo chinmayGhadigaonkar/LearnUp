@@ -10,6 +10,7 @@ import cors from "cors";
 
 import { v2 as cloudinary } from "cloudinary";
 import clerkauth from "./routes/ClerkAuthRoutes.js";
+import commentRoutes from "./routes/CommentRoutes.js";
 
 const app = express();
 env.config();
@@ -68,5 +69,6 @@ app.use("/api/answer", answer);
 app.use("/api/auth", auth);
 app.use("/api/blog", blog);
 app.use("/api/clerkauth", clerkauth);
+app.use("/api/comments", commentRoutes);
 
 app.listen(5000, () => console.log(`app is listen on port 5000 `));

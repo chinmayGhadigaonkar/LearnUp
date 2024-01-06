@@ -4,12 +4,12 @@ import BlogComment from "../comments/BlogComment";
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import FetchRequest from "../../utils/FetchRequest";
+import AllComment from "../comments/AllComment";
 
 const BlogPost = () => {
   const [likes, setLikes] = useState(0);
   const [show, setShow] = useState(false);
   const [blog, setBlog] = useState("");
-  console.log(blog);
 
   const params = useParams();
 
@@ -62,27 +62,8 @@ const BlogPost = () => {
               }}></p>
           </div>
         </div>
-        <div className="mt-8 text-gray-300">
-          <h2 className="text-2xl font-bold mb-4">Comments</h2>
-          <div className="bg-white p-4 rounded-lg shadow-lg">
-            <div className="flex items-start mb-4">
-              <div className="">
-                <img
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOd6VLrAsHVVG0KJ7dMy-36-RAunP8w48blA&usqp=CAU"
-                  alt="Author's profile"
-                  className="w-10 h-10 rounded-full mr-4"
-                />
-              </div>
-              <div className="ml-4">
-                <p className="text-gray-800 font-semibold">John Doe</p>
-                <p className="text-gray-600">October 6, 2023</p>
-              </div>
-            </div>
-            <p className="text-gray-800">
-              Great post! I learned a lot from this. Thanks for sharing.
-            </p>
-          </div>
-        </div>
+        <AllComment />
+
         <div className="mt-8">
           <h2 className="text-2xl font-bold text-gray-300">Likes</h2>
           <div className="mt-4 flex items-center">

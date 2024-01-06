@@ -20,21 +20,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { GetAllQuestion } from "./store/slice/questionSlice";
 import ProtectedRoutes from "./components/common/ProtectedRoutes";
 import { VITE_CLERK_PUBLISHABLE_KEY } from "./utils/config";
-import {
-  ClerkProvider,
-  RedirectToSignIn,
-  SignUp,
-  SignedIn,
-  SignedOut,
-} from "@clerk/clerk-react";
-import SignIn from "./pages/SignIn";
+import { ClerkProvider, SignUp, useUser } from "@clerk/clerk-react";
+import SignInPage from "./pages/SignIn";
+import { removeUser } from "./store/slice/userSlice";
 
 const App = () => {
   const dispatch = useDispatch();
+
   const { user } = useSelector((state) => state.user);
   const isAuthenticate = user ? true : false;
   useEffect(() => {
     dispatch(GetAllQuestion());
+    // if (!isSignedIn) {
+    //   dispatch(removeUser());
+    // }
   }, []);
 
   // const navigate = useNavigate();
@@ -65,13 +64,12 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/contactus" element={<ContactUS />} />
             {/* <Route path="/Signup" element={<SignUp />} /> */}
+            <Route path="/sign-in" element={<SignInPage path="/sign-in" />} />
             <Route
-              path="/sign-in/*"
-              element={<SignIn routing="path" path="/sign-in" />}
-            />
-            <Route
-              path="/sign-up/*"
-              element={<SignUp routing="path" path="/sign-up" />}
+              path="/sign-up"
+              element={
+                <SignUp routing="path" path="/sign-up" signInUrl="/sign-in" />
+              }
             />
 
             <Route

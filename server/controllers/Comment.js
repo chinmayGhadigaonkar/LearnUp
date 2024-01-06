@@ -1,20 +1,48 @@
 import Comment from "../models/comments.js";
 import expressAsyncHandler from "express-async-handler";
 
-export const getComment = expressAsyncHandler(async (req, res) => {
-  const Comments = await Comment.find();
+const hasUserCommented = async (userId, blogId) => {
+  const existingComment = await Comment.findOne({
+    author: userId,
+    blog: blogId,
+  });
 
-  res.status(200).json({ success: true, Comments });
+  return existingComment;
+};
+
+export const getComment = expressAsyncHandler(async (req, res) => {
+  const comments = await Comment.find();
+
+  res.status(200).json({ success: true, comments });
+});
+
+export const getCommentSingleBlog = expressAsyncHandler(async (req, res) => {
+  const comments = await Comment.find({ blogId: req.params.id });
+
+  res.status(200).json({ success: true, comments });
 });
 
 export const addComment = expressAsyncHandler(async (req, res) => {
   const newCommentData = {
-    author: req.user._id,
-    ...req.body,
+    user: req.user._id,
+    blogId: req.body.blogId,
+    content: req.body.content,
   };
 
+  const userHasCommented = await hasUserCommented(
+    newCommentData.user,
+    newCommentData.blogId,
+  );
+
+  if (userHasCommented) {
+    return res.status(400).json({
+      success: false,
+      message: "You have already commented on this blog.",
+    });
+  }
+
   const newComment = await Comment.create(newCommentData);
-  res.status(201).json(newComment);
+  res.status(201).json({ success: true, comment: newComment });
 });
 
 export const deleteComment = expressAsyncHandler(async (req, res) => {

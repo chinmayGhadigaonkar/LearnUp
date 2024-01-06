@@ -2,15 +2,15 @@ import mongoose from "mongoose";
 
 const commentSchema = mongoose.Schema(
   {
-    author: {
+    user: {
       type: mongoose.Schema.ObjectId,
       ref: "User",
       require: true,
     },
-    blog: {
+    blogId: {
       type: mongoose.Schema.ObjectId,
-      required: true,
       ref: "Blog",
+      required: true,
     },
     content: {
       type: String,
@@ -20,6 +20,8 @@ const commentSchema = mongoose.Schema(
   },
   { timestamps: true },
 );
+
+commentSchema.index({ author: 1, blog: 1 }, { unique: true });
 
 const Comment = new mongoose.model("Comment", commentSchema);
 export default Comment;

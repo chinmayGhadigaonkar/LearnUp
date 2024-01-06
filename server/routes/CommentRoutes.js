@@ -3,10 +3,16 @@ import {
   addComment,
   deleteComment,
   getComment,
+  getCommentSingleBlog,
 } from "../controllers/Comment.js";
+import { authMiddleware } from "../middleware/authMiddleware.js";
 
-const comment = Router();
+const commentRoutes = Router();
 
-comment.get("/getallcomment", getComment);
-comment.post("/addcomment", addComment);
-comment.delete("/deletecomment/:id", deleteComment);
+commentRoutes
+  .get("/getallcomment", getComment)
+  .get("/getallcomment/:id", getCommentSingleBlog);
+commentRoutes.post("/addcomment", authMiddleware, addComment);
+commentRoutes.delete("/deletecomment/:id", authMiddleware, deleteComment);
+
+export default commentRoutes;

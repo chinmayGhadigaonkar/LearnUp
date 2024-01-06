@@ -15,7 +15,6 @@ export const finduser = expressAsyncHandler(async (req, res) => {
     res.status(200).json({ success: false, msg: " No user in database  " });
     return;
   }
-  console.log(user);
 
   // res.status(200).json({ success: true, user });
   setToken(user[0], 200, res);
