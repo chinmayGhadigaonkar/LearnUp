@@ -10,6 +10,7 @@ const SignInPage = () => {
   return (
     <div className="mx-auto flex-1 py-28">
       <SignIn path="/sign-in" routing="path" signUpUrl="/sign-up"></SignIn>
+      {/* <SignIn></SignIn> */}
     </div>
   );
 };

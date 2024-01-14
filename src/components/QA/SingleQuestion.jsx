@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { Triangle } from "lucide-react";
 import Answer from "./Answer";
 import formatDateDifference from "../../utils/FormatDate";
+import { questionDisLike, questionLike } from "../../store/slice/questionSlice";
 
 const SingleQuestion = () => {
   const [upVote, setDownVote] = useState();
@@ -47,10 +48,21 @@ const SingleQuestion = () => {
     "en-US",
     options,
   );
+  const dispatch = useDispatch();
 
+  const handleOnLike = (id) => {
+    dispatch(questionLike(id));
+  };
+  const handleOnDisLike = (id) => {
+    dispatch(questionDisLike(id));
+  };
   useEffect(() => {
     getSingleQuestion(getparams.id);
   }, []);
+
+  useEffect(() => {
+    getSingleQuestion(getparams.id);
+  }, [handleOnDisLike || handleOnLike]);
   return (
     <>
       {question && (
@@ -75,18 +87,18 @@ const SingleQuestion = () => {
                 className={` mx-auto h-12 w-12 my-1 text-center shadow-md  text-black border-2  rounded-full p-2 ${
                   upVote ? " text-red-500  hover:bg-red-100" : "bg-white"
                 }`}
-                onClick={() => setDownVote(true)}>
+                onClick={() => handleOnLike(getparams.id)}>
                 <Triangle fill="black" color="none" />
                 {/* <Triangle color="#ffffff" strokeWidth={1.5} /> */}
               </button>
               <h1 className="mx-auto my-1 font-semibold  text-xl">
-                {question.likes}
+                {question.likes - question.dislikes}
               </h1>
               <button
                 className={` mx-auto h-12 w-12 text-center shadow-md  text-black border-2 rounded-full p-2  ${
                   !upVote ? "text-red-500 hover:bg-red-100" : "bg-white"
                 }`}
-                onClick={() => setDownVote()}>
+                onClick={() => handleOnDisLike(getparams.id)}>
                 <Triangle
                   fill="black"
                   color="none"

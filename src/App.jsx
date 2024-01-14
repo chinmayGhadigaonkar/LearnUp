@@ -68,7 +68,8 @@ const App = () => {
             <Route
               path="/sign-up"
               element={
-                <SignUp routing="path" path="/sign-up" signInUrl="/sign-in" />
+                // <SignUp routing="path" path="/sign-up" signInUrl="/sign-in" />
+                <SignUp />
               }
             />
 

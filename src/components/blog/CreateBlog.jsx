@@ -29,15 +29,22 @@ const CreateBlog = () => {
       return;
     }
     // const input = new FormData();
-    const input = new FormData();
+    // const input = new FormData();
 
-    input.append("title", title);
-    input.append("content", description);
-    input.append("image", image);
-    input.append("readtime", readTime);
+    // input.append("title", title);
+    // input.append("content", description);
+    // input.append("image", image);
+    // input.append("readtime", readTime);
 
-    console.log(input);
-    dispatch(AddBlog(input));
+    // console.log(input);
+
+    const data = {
+      title: title,
+      content: description,
+      image: image,
+      readtime: readTime,
+    };
+    dispatch(AddBlog(data));
 
     // navigate("/blogs");
   };

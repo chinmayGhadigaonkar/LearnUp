@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import FetchRequest from "../../utils/FetchRequest";
 import { toast } from "react-toastify";
+import { UserProfile } from "@clerk/clerk-react";
 
 const AllComment = () => {
   const parms = useParams();
@@ -47,7 +48,9 @@ const AllComment = () => {
                   />
                 </div>
                 <div className="ml-4">
-                  <p className="text-gray-800 font-semibold">John Doe</p>
+                  <p className="text-gray-800 font-semibold">
+                    {item.user.fullname}
+                  </p>
                   <p className="text-gray-600">October 6, 2023</p>
                 </div>
               </div>

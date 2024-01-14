@@ -1,4 +1,5 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 
 const Questions = ({ que }) => {
   const originalTimestamp = new Date(que.createdAt);
@@ -12,7 +13,8 @@ const Questions = ({ que }) => {
   };
 
   const formattedDate = originalTimestamp.toLocaleDateString("en-US", options);
-  const { title, tags, likes, description } = que;
+  const { title, tags, likes, dislikes, description } = que;
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -20,7 +22,9 @@ const Questions = ({ que }) => {
       <div className="w-full  px-10">
         <div className=" w- flex  items-center space-x-10 my-auto ">
           <div className="my-4 pl-4">
-            <div className="votes text-black text-xl">{likes} Votes</div>
+            <div className="votes text-black text-xl">
+              {likes - dislikes} Votes
+            </div>
             <div className="Answer text-black"> 0 Answer</div>
           </div>
           <div className="mt-4 w-full">

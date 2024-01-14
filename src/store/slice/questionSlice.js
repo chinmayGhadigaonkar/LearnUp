@@ -77,18 +77,43 @@ export const CreateQuestion = createAsyncThunk(
   },
 );
 
-// export const questionLike = createAsyncThunk("/CreateQuestion", async (id) => {
-//   try {
-//     const res = await FetchRequest.post(`question/addquestion/${id}`, option);
-//     const { success, questions } = res.data;
-//     console.log(questions);
-//     if (success) {
-//       return questions.likes;
-//     }
-//   } catch (error) {
-//     console.log(error);
-//   }
-// });
+export const questionLike = createAsyncThunk("/LikeQuestion", async (id) => {
+  try {
+    const res = await FetchRequest.put(`question/questionlikes/${id}`);
+    const { success, saveLike } = res.data;
+
+    if (success) {
+      toast.success("You successfully liked a question.");
+      return saveLike;
+    } else {
+      toast.error(msg);
+    }
+    if (success) {
+      return questions;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+export const questionDisLike = createAsyncThunk(
+  "/LikeDisQuestion",
+  async (id) => {
+    try {
+      const res = await FetchRequest.put(`question/questiondislikes/${id}`);
+      const { success, saveLike, msg } = res.data;
+
+      if (success) {
+        toast.success("You successfully disliked a question.");
+        return saveLike;
+      } else {
+        toast.error(msg);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  },
+);
 
 export const {} = questionSlice.actions;
 export default questionSlice.reducer;

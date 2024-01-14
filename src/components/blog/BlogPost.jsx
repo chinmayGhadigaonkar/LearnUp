@@ -50,9 +50,13 @@ const BlogPost = () => {
         </div>
         <div className="bg-white p-6 rounded-lg shadow-lg">
           <img
-            src="https://media.istockphoto.com/id/1198931639/photo/writing-a-blog-blogger-influencer-reading-text-on-screen.jpg?b=1&s=612x612&w=0&k=20&c=_C4iNvLOzKbbfbeTMsJ4mQf8OGQwYWJ8GWKLKRglrF8="
+            src={
+              blog.image
+                ? blog.image
+                : "https://media.istockphoto.com/id/1198931639/photo/writing-a-blog-blogger-influencer-reading-text-on-screen.jpg?b=1&s=612x612&w=0&k=20&c=_C4iNvLOzKbbfbeTMsJ4mQf8OGQwYWJ8GWKLKRglrF8="
+            }
             alt="Blog post cover"
-            className="w-auto h- rounded-lg mx-auto mb-6"
+            className="sm:w-[60%] h- rounded-lg mx-auto mb-6"
           />
           <div className="text-gray-800 text-lg leading-relaxed">
             <p

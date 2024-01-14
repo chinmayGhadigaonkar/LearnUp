@@ -74,5 +74,42 @@ export const AddAnswer = createAsyncThunk("/Addanswer", async (data) => {
   }
 });
 
+export const answerLike = createAsyncThunk("/CreateQuestion", async (id) => {
+  try {
+    const res = await FetchRequest.put(`answer/answerlikes/${id}`);
+    const { success, saveLike } = res.data;
+
+    if (success) {
+      toast.success("You successfully liked a answer.");
+      return saveLike;
+    } else {
+      toast.error(msg);
+    }
+    if (success) {
+      return questions;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+export const answerDisLike = createAsyncThunk(
+  "/LikeDisQuestion",
+  async (id) => {
+    try {
+      const res = await FetchRequest.put(`answer/answerdislikes/${id}`);
+      const { success, saveLike, msg } = res.data;
+
+      if (success) {
+        toast.success("You successfully disliked a answer.");
+        return saveLike;
+      } else {
+        toast.error(msg);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  },
+);
 export const {} = answerSlice.actions;
 export default answerSlice.reducer;

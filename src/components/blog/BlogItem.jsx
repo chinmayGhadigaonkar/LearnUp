@@ -8,7 +8,11 @@ const BlogItem = ({ blog }) => {
         <div className="h-full  shadow-lg border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
           <img
             className="lg:h-48 md:h-36 w-full object-cover object-center"
-            src="https://blog.scientix.eu/files/2015/06/ideyweb_jpeg-640x340.jpg"
+            src={
+              blog.image
+                ? blog.image
+                : `https://blog.scientix.eu/files/2015/06/ideyweb_jpeg-640x340.jpg`
+            }
             alt="educational blog"
           />
           <div className="p-6">
