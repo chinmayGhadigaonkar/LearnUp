@@ -49,7 +49,8 @@ const Home = () => {
           const res = await FetchRequest.get(
             `clerkauth/getemail?email=${email}`,
           );
-          const { success, token } = res.data;
+          const { success, token, user } = res.data;
+          console.log(user._id);
 
           console.log(success);
           if (success) {

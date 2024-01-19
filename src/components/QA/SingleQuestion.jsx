@@ -1,37 +1,56 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import AnsForm from "./AnsForm";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import FetchRequest from "../../utils/FetchRequest";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Triangle } from "lucide-react";
 import Answer from "./Answer";
 import formatDateDifference from "../../utils/FormatDate";
-import { questionDisLike, questionLike } from "../../store/slice/questionSlice";
+import {
+  getSingleQuestion,
+  questionDisLike,
+  questionLike,
+} from "../../store/slice/SingleQuestionSlice";
+import { useAuth, useUser } from "@clerk/clerk-react";
 
 const SingleQuestion = () => {
-  const [upVote, setDownVote] = useState();
-  const [question, setQuestion] = useState("");
+  // const [upVote, setUpVote] = useState();
+  // const [downVote, setDownVote] = useState();
+  // const [question, setQuestion] = useState("");
   const getparams = useParams();
+  const { userId } = useAuth();
+  const { isSignedIn, user } = useUser();
 
-  const getSingleQuestion = async (id) => {
-    try {
-      const res = await FetchRequest.get(`question/getquestion/${id}`);
-      const { success, question } = res.data;
+  // const getSingleQuestion = async (id) => {
+  //   try {
+  //     const res = await FetchRequest.get(`question/getquestion/${id}`);
+  //     const { success, question } = res.data;
 
-      if (success) {
-        setQuestion(question);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //     if (success) {
+  //       setQuestion(question);
+  //       setUpVote(question.likes);
+  //       setDownVote(question.dislikes);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   // console.log(question.updatedAt);
-  // const createDate = formatDateDifference(question.updatedAt);
 
   // console.log(createDate);
 
+  useEffect(() => {
+    // getSingleQuestion(getparams.id);
+    dispatch(getSingleQuestion(getparams.id));
+  }, []);
+
+  const { question } = useSelector((state) => state.singleQuestion);
+
+  console.log(question);
+
+  const upVote = false;
   const originalTimestamp = new Date(question.updatedAt);
   const originalTimestamp2 = new Date(question.createdAt);
 
@@ -49,20 +68,13 @@ const SingleQuestion = () => {
     options,
   );
   const dispatch = useDispatch();
-
   const handleOnLike = (id) => {
     dispatch(questionLike(id));
   };
   const handleOnDisLike = (id) => {
     dispatch(questionDisLike(id));
   };
-  useEffect(() => {
-    getSingleQuestion(getparams.id);
-  }, []);
 
-  useEffect(() => {
-    getSingleQuestion(getparams.id);
-  }, [handleOnDisLike || handleOnLike]);
   return (
     <>
       {question && (

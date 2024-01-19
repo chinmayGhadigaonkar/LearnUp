@@ -77,43 +77,43 @@ export const CreateQuestion = createAsyncThunk(
   },
 );
 
-export const questionLike = createAsyncThunk("/LikeQuestion", async (id) => {
-  try {
-    const res = await FetchRequest.put(`question/questionlikes/${id}`);
-    const { success, saveLike } = res.data;
+// export const questionLike = createAsyncThunk("/LikeQuestion", async (id) => {
+//   try {
+//     const res = await FetchRequest.put(`question/questionlikes/${id}`);
+//     const { success, saveLike } = res.data;
 
-    if (success) {
-      toast.success("You successfully liked a question.");
-      return saveLike;
-    } else {
-      toast.error(msg);
-    }
-    if (success) {
-      return questions;
-    }
-  } catch (error) {
-    console.log(error);
-  }
-});
+//     if (success) {
+//       toast.success("You successfully liked a question.");
+//       return saveLike;
+//     } else {
+//       toast.error(msg);
+//     }
+//     if (success) {
+//       return questions;
+//     }
+//   } catch (error) {
+//     console.log(error);
+//   }
+// });
 
-export const questionDisLike = createAsyncThunk(
-  "/LikeDisQuestion",
-  async (id) => {
-    try {
-      const res = await FetchRequest.put(`question/questiondislikes/${id}`);
-      const { success, saveLike, msg } = res.data;
+// export const questionDisLike = createAsyncThunk(
+//   "/LikeDisQuestion",
+//   async (id) => {
+//     try {
+//       const res = await FetchRequest.put(`question/questiondislikes/${id}`);
+//       const { success, saveLike, msg } = res.data;
 
-      if (success) {
-        toast.success("You successfully disliked a question.");
-        return saveLike;
-      } else {
-        toast.error(msg);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  },
-);
+//       if (success) {
+//         toast.success("You successfully disliked a question.");
+//         return saveLike;
+//       } else {
+//         toast.error(msg);
+//       }
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   },
+// );
 
 export const {} = questionSlice.actions;
 export default questionSlice.reducer;
