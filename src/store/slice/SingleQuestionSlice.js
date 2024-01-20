@@ -70,10 +70,10 @@ export const getSingleQuestion = createAsyncThunk(
 export const questionLike = createAsyncThunk("/LikeQuestion", async (id) => {
   try {
     const res = await FetchRequest.put(`question/questionlikes/${id}`);
-    const { success, saveLike } = res.data;
+    const { success, saveLike, msg } = res.data;
 
     if (success) {
-      toast.success("You successfully liked a question.");
+      toast.success(msg);
       return saveLike;
     } else {
       toast.error(msg);
@@ -91,7 +91,7 @@ export const questionDisLike = createAsyncThunk(
       const { success, saveLike, msg } = res.data;
 
       if (success) {
-        toast.success("You successfully disliked a question.");
+        toast.success(msg);
         return saveLike;
       } else {
         toast.error(msg);

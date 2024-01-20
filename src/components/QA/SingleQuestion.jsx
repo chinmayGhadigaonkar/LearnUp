@@ -13,14 +13,14 @@ import {
   questionLike,
 } from "../../store/slice/SingleQuestionSlice";
 import { useAuth, useUser } from "@clerk/clerk-react";
+import { GetAllAnswer } from "../../store/slice/answerSlice";
 
 const SingleQuestion = () => {
   // const [upVote, setUpVote] = useState();
   // const [downVote, setDownVote] = useState();
   // const [question, setQuestion] = useState("");
   const getparams = useParams();
-  const { userId } = useAuth();
-  const { isSignedIn, user } = useUser();
+  const [user, setUser] = useState();
 
   // const getSingleQuestion = async (id) => {
   //   try {
@@ -41,16 +41,29 @@ const SingleQuestion = () => {
 
   // console.log(createDate);
 
+  const getUser = async () => {
+    try {
+      const res = await FetchRequest.get(`clerkauth/getuser`);
+      const { success, users } = res.data;
+      if (success) {
+        setUser(users._id);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
+    getUser();
     // getSingleQuestion(getparams.id);
     dispatch(getSingleQuestion(getparams.id));
   }, []);
 
   const { question } = useSelector((state) => state.singleQuestion);
 
-  console.log(question);
+  const upVote = user && question.likeById.includes(user);
+  const downVote = user && question.dislikeById.includes(user);
 
-  const upVote = false;
   const originalTimestamp = new Date(question.updatedAt);
   const originalTimestamp2 = new Date(question.createdAt);
 
@@ -67,12 +80,15 @@ const SingleQuestion = () => {
     "en-US",
     options,
   );
+
   const dispatch = useDispatch();
   const handleOnLike = (id) => {
     dispatch(questionLike(id));
+    dispatch(GetAllQuestion());
   };
   const handleOnDisLike = (id) => {
     dispatch(questionDisLike(id));
+    dispatch(GetAllAnswer());
   };
 
   return (
@@ -97,7 +113,7 @@ const SingleQuestion = () => {
             <div className="flex flex-col md:w-4/12">
               <button
                 className={` mx-auto h-12 w-12 my-1 text-center shadow-md  text-black border-2  rounded-full p-2 ${
-                  upVote ? " text-red-500  hover:bg-red-100" : "bg-white"
+                  upVote ? " bg-red-500  hover:bg-red-100" : "bg-white "
                 }`}
                 onClick={() => handleOnLike(getparams.id)}>
                 <Triangle fill="black" color="none" />
@@ -108,7 +124,7 @@ const SingleQuestion = () => {
               </h1>
               <button
                 className={` mx-auto h-12 w-12 text-center shadow-md  text-black border-2 rounded-full p-2  ${
-                  !upVote ? "text-red-500 hover:bg-red-100" : "bg-white"
+                  downVote ? "bg-red-500 hover:bg-red-100" : "bg-white"
                 }`}
                 onClick={() => handleOnDisLike(getparams.id)}>
                 <Triangle
