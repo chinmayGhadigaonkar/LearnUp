@@ -23,6 +23,15 @@ import { VITE_CLERK_PUBLISHABLE_KEY } from "./utils/config";
 import { ClerkProvider, SignUp, useUser } from "@clerk/clerk-react";
 import SignInPage from "./pages/SignIn";
 import { removeUser } from "./store/slice/userSlice";
+import Profile from "./components/profile/Profile";
+import ProfileMain from "./components/profile/Main";
+import ActivityPage from "./components/profile/activity";
+import SettingPage from "./components/profile/Setting";
+import AnswerActivity from "./components/profile/activity/AnswerActivity";
+import QuestionActivity from "./components/profile/activity/QuestionActivity";
+import BlogActivity from "./components/profile/activity/BlogActivity";
+import Reputation from "./components/profile/activity/Reputation";
+import Summary from "./components/profile/activity/Summary";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -31,9 +40,6 @@ const App = () => {
   const isAuthenticate = user ? true : false;
   useEffect(() => {
     dispatch(GetAllQuestion());
-    // if (!isSignedIn) {
-    //   dispatch(removeUser());
-    // }
   }, []);
 
   // const navigate = useNavigate();
@@ -80,6 +86,32 @@ const App = () => {
               <Route path="/BlogPost/:id" element={<BlogPost />} />
               <Route path="/createblog" element={<CreateBlog />} />
               <Route path="/aichats" element={<AIChatPage />} />
+              <Route path="/profile" element={<Profile />}>
+                <Route path="/profile/main" element={<ProfileMain />} />
+                <Route path="/profile/activity" element={<ActivityPage />}>
+                  <Route
+                    path="/profile/activity/summary"
+                    element={<Summary />}
+                  />
+                  <Route
+                    path="/profile/activity/answers"
+                    element={<AnswerActivity />}
+                  />
+                  <Route
+                    path="/profile/activity/questions"
+                    element={<QuestionActivity />}
+                  />
+                  <Route
+                    path="/profile/activity/blogs"
+                    element={<BlogActivity />}
+                  />
+                  <Route
+                    path="/profile/activity/reputation"
+                    element={<Reputation />}
+                  />
+                </Route>
+                <Route path="/profile/setting" element={<SettingPage />} />
+              </Route>
             </Route>
           </Routes>
 

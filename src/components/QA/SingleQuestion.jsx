@@ -12,12 +12,11 @@ import {
   questionDisLike,
   questionLike,
 } from "../../store/slice/SingleQuestionSlice";
-import { useAuth, useUser } from "@clerk/clerk-react";
-import { GetAllAnswer } from "../../store/slice/answerSlice";
 
 const SingleQuestion = () => {
-  // const [upVote, setUpVote] = useState();
-  // const [downVote, setDownVote] = useState();
+  // Timer part remaining for likes and dislikes
+  const [upVote, setUpVote] = useState(false);
+  const [downVote, setDownVote] = useState(false);
   // const [question, setQuestion] = useState("");
   const getparams = useParams();
   const [user, setUser] = useState();
@@ -53,16 +52,26 @@ const SingleQuestion = () => {
     }
   };
 
+  function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+      const later = () => {
+        clearTimeout(timeout);
+        func(...args);
+      };
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
+  }
+
   useEffect(() => {
     getUser();
-    // getSingleQuestion(getparams.id);
     dispatch(getSingleQuestion(getparams.id));
   }, []);
+  // const upVote = user && question.likeById.includes(user);
+  // const downVote = user && question.dislikeById.includes(user);
 
   const { question } = useSelector((state) => state.singleQuestion);
-
-  const upVote = user && question.likeById.includes(user);
-  const downVote = user && question.dislikeById.includes(user);
 
   const originalTimestamp = new Date(question.updatedAt);
   const originalTimestamp2 = new Date(question.createdAt);
@@ -84,12 +93,23 @@ const SingleQuestion = () => {
   const dispatch = useDispatch();
   const handleOnLike = (id) => {
     dispatch(questionLike(id));
-    dispatch(GetAllQuestion());
+
+    // dispatch(GetAllQuestion());
   };
   const handleOnDisLike = (id) => {
     dispatch(questionDisLike(id));
-    dispatch(GetAllAnswer());
+
+    // dispatch(GetAllAnswer());
   };
+  const debouncedHandleOnLike = debounce(handleOnLike, 800);
+  const debouncedHandleOnDisLike = debounce(handleOnDisLike, 800);
+
+  useEffect(() => {
+    if (user) {
+      setUpVote(question.likeById.includes(user));
+      setDownVote(question.dislikeById.includes(user));
+    }
+  }, [getUser]);
 
   return (
     <>
@@ -113,9 +133,11 @@ const SingleQuestion = () => {
             <div className="flex flex-col md:w-4/12">
               <button
                 className={` mx-auto h-12 w-12 my-1 text-center shadow-md  text-black border-2  rounded-full p-2 ${
-                  upVote ? " bg-red-500  hover:bg-red-100" : "bg-white "
+                  upVote && !downVote
+                    ? " bg-red-500  hover:bg-red-100"
+                    : "bg-white "
                 }`}
-                onClick={() => handleOnLike(getparams.id)}>
+                onClick={() => debouncedHandleOnLike(getparams.id)}>
                 <Triangle fill="black" color="none" />
                 {/* <Triangle color="#ffffff" strokeWidth={1.5} /> */}
               </button>
@@ -124,9 +146,11 @@ const SingleQuestion = () => {
               </h1>
               <button
                 className={` mx-auto h-12 w-12 text-center shadow-md  text-black border-2 rounded-full p-2  ${
-                  downVote ? "bg-red-500 hover:bg-red-100" : "bg-white"
+                  !upVote && downVote
+                    ? " bg-red-500 hover:bg-red-100"
+                    : "bg-white"
                 }`}
-                onClick={() => handleOnDisLike(getparams.id)}>
+                onClick={() => debouncedHandleOnDisLike(getparams.id)}>
                 <Triangle
                   fill="black"
                   color="none"

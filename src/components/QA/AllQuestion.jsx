@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Questions from "./Questions";
 import { useNavigate, Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { GetAllQuestion } from "../../store/slice/questionSlice";
 
 const AllQuestion = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(GetAllQuestion());
+  }, []);
+
   const { questions } = useSelector((state) => state.question);
 
   const navigate = useNavigate();

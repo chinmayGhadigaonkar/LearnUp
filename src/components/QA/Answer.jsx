@@ -8,23 +8,66 @@ import {
   answerLike,
 } from "../../store/slice/answerSlice";
 import { useParams } from "react-router-dom";
+import FetchRequest from "../../utils/FetchRequest";
 const Answer = () => {
-  const [upVote, setDownVote] = useState();
+  const [upVotes, setUpVotes] = useState({});
+  const [downVotes, setDownVotes] = useState({});
+
+  const [user, setUser] = useState();
   const { answer } = useSelector((state) => state.answer);
 
   const dispatch = useDispatch();
 
+  function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+      const later = () => {
+        clearTimeout(timeout);
+        func(...args);
+      };
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
+  }
+
   const handleOnLike = (id) => {
     dispatch(answerLike(id));
   };
+  const debouncedHandleOnLike = debounce(handleOnLike, 1000);
   const handleOnDisLike = (id) => {
     dispatch(answerDisLike(id));
   };
+  const debouncedHandleOnDisLike = debounce(handleOnDisLike, 1000);
+  const getUser = async () => {
+    try {
+      const res = await FetchRequest.get(`clerkauth/getuser`);
+      const { success, users } = res.data;
+      if (success) {
+        setUser(users._id);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const params = useParams();
 
-  // useEffect(() => {
-  //   dispatch(GetAllAnswer(params.id));
-  // }, []);
+  useEffect(() => {
+    getUser();
+    dispatch(GetAllAnswer(params.id));
+  }, [, dispatch]);
+
+  useEffect(() => {
+    if (user && answer) {
+      const newUpVotes = {};
+      const newDownVotes = {};
+      answer.forEach((item) => {
+        newUpVotes[item._id] = item.likeById.includes(user);
+        newDownVotes[item._id] = item.dislikeById.includes(user);
+      });
+      setUpVotes(newUpVotes);
+      setDownVotes(newDownVotes);
+    }
+  }, [user, answer]);
 
   return (
     <div className="px-2">
@@ -39,9 +82,11 @@ const Answer = () => {
                 <div className="flex flex-col md:w-4/12">
                   <button
                     className={` mx-auto h-12 w-12 my-1 text-center shadow-md  text-black border-2  rounded-full p-2 ${
-                      upVote ? " text-red-500  hover:bg-red-100" : "bg-white"
+                      upVotes[item._id] && !downVotes[item._id]
+                        ? " bg-red-500  hover:bg-red-100"
+                        : "bg-white "
                     }`}
-                    onClick={() => handleOnLike(item._id)}>
+                    onClick={() => debouncedHandleOnLike(item._id)}>
                     <Triangle fill="black" color="none" />
                     {/* <Triangle color="#ffffff" strokeWidth={1.5} /> */}
                   </button>
@@ -50,10 +95,12 @@ const Answer = () => {
                   </h1>
                   <button
                     className={` mx-auto h-12 w-12 text-center shadow-md  text-black border-2 rounded-full p-2  ${
-                      !upVote ? "text-red-500 hover:bg-red-100" : "bg-white"
+                      !upVotes[item._id] && downVotes[item._id]
+                        ? " bg-red-500 hover:bg-red-100"
+                        : "bg-white"
                     }`}
                     onClick={() => {
-                      handleOnDisLike(item._id);
+                      debouncedHandleOnDisLike(item._id);
                     }}>
                     <Triangle
                       fill="black"
