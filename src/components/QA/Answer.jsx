@@ -69,6 +69,7 @@ const Answer = () => {
     }
   }, [user, answer]);
 
+  // console.log(answer[0].user.username);
   return (
     <div className="px-2">
       <h1 className="text-2xl py-2  px-2 font-semibold">
@@ -109,12 +110,18 @@ const Answer = () => {
                     />
                   </button>
                 </div>
-                <div>
+                <div className="w-full">
                   <div
                     dangerouslySetInnerHTML={{
                       __html: item.answer,
                     }}></div>
                 </div>
+
+                {/* <div className="flex space-x-2  items-end justify-end">
+                  <h1 className="h-10 py-2 text-end font-semibold px-2 ">
+                    Answer by : {answer[0].user.username}{" "}
+                  </h1>
+                </div> */}
               </div>
               <hr />
             </div>

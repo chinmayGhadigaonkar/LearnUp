@@ -10,7 +10,6 @@ const Blog = () => {
 
   const { blogs } = useSelector((state) => state.blog);
 
-  console.log(blogs);
   useEffect(() => {
     dispatch(GetAllBlog());
   }, []);
@@ -34,7 +33,7 @@ const Blog = () => {
           <div className="flex  flex-wrap mx-auto w-[80%] ">
             {blogs &&
               blogs.map((Item) => {
-                return <BlogItem blog={Item} />;
+                return <BlogItem key={Item._id} blog={Item} />;
               })}
           </div>
         </div>

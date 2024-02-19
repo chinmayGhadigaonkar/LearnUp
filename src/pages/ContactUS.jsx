@@ -11,7 +11,7 @@ const ContactUS = () => {
           {/* <h2 className="text-gray-900 text-xl mb-1 font-medium title-font mx-auto">Contact Us</h2> */}
 
           <div className="relative mb-4">
-            <label for="email" className="leading-7 text-sm text-gray-600">
+            <label htmlFor="email" className="leading-7 text-sm text-gray-600">
               Email
             </label>
             <input
@@ -22,7 +22,9 @@ const ContactUS = () => {
             />
           </div>
           <div className="relative mb-4">
-            <label for="message" className="leading-7 text-sm text-gray-600">
+            <label
+              htmlFor="message"
+              className="leading-7 text-sm text-gray-600">
               Message
             </label>
             <textarea

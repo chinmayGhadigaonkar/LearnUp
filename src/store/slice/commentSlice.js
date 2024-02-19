@@ -1,4 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import FetchRequest from "../../utils/FetchRequest";
+const STATUSES = {
+  IDLE: "idle",
+  ERROR: "error",
+  LOADING: "loading",
+};
 
 const comment = createSlice({
   name: "comment",
@@ -7,22 +13,22 @@ const comment = createSlice({
     status: " idle ",
   },
   extraReducers: (builder) => {
-    builder.addCase(GetComment.pending, (state, action) => {
+    builder.addCase(GetAllComment.pending, (state, action) => {
       state.status = STATUSES.LOADING;
     });
-    builder.addCase(GetComment.fulfilled, (state, action) => {
+    builder.addCase(GetAllComment.fulfilled, (state, action) => {
       state.comments = action.payload;
 
       state.status = STATUSES.IDLE;
     });
-    builder.addCase(GetComment.rejected, (state, action) => {
+    builder.addCase(GetAllComment.rejected, (state, action) => {
       state.status = STATUSES.ERROR;
     });
     builder.addCase(AddComment.pending, (state, action) => {
       state.status = STATUSES.LOADING;
     });
     builder.addCase(AddComment.fulfilled, (state, action) => {
-      state.comments = action.payload;
+      state.comments.push(action.payload);
 
       state.status = STATUSES.IDLE;
     });
@@ -32,18 +38,15 @@ const comment = createSlice({
   },
 });
 
-const GetAllComment = createAsyncThunk("GetComments", async (id) => {
+export const GetAllComment = createAsyncThunk("/GetComments", async (id) => {
   try {
-    console.log(id);
+    // console.log(id);
     const res = await FetchRequest.get(`comments/getallcomment/${id}`);
     const { success, comments } = res.data;
 
     if (success) {
-      // console.log(comments);
-
-      setComment(comments);
-      // toast.success("Comment added successfully");
-      return;
+      console.log(comments);
+      return comments;
     }
   } catch (error) {
     console.log(error);
@@ -58,9 +61,13 @@ export const AddComment = createAsyncThunk("/AddComment", async (data) => {
 
     if (success) {
       toast.success("Comment added successfully");
-      return;
+      return comment;
     }
   } catch (error) {
+    toast.error("An error occurred");
     console.log(error);
   }
 });
+
+export const {} = comment.actions;
+export default comment.reducer;

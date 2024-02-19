@@ -76,7 +76,6 @@ export const GetAllAnswer = createAsyncThunk("/GetAllAnswer", async (id) => {
     });
     const res = await FetchRequest.post("answer/getanswer", option);
     const { success, answer } = res.data;
-    console.log(answer);
 
     if (success) {
       return answer;

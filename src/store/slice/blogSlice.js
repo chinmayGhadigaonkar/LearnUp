@@ -67,22 +67,12 @@ export const GetSingleBlog = createAsyncThunk("/GetSingleBlog", async (id) => {
 });
 export const AddBlog = createAsyncThunk("/AddBlog", async (data) => {
   try {
-    const { title, content, image, readtime } = data;
-    console.log(title);
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("content", content);
-    formData.append("readtime", readtime);
-    formData.append("image", image);
-    console.log(formData.get("title"));
-    console.log(formData.get("content"));
-    console.log(formData.get("readtime"));
-    console.log(formData.get("image"));
-
-    console.log(image);
-    const res = await FetchRequest.post("blog/addblog", formData);
+    const res = await FetchRequest.post("blog/addblog", data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
     const { success, blogs } = res.data;
-    // console.log(blogs);
 
     if (success) {
       toast.success("Your Blog added successfully");
@@ -91,25 +81,24 @@ export const AddBlog = createAsyncThunk("/AddBlog", async (data) => {
     }
   } catch (error) {
     toast.error("An error occurred");
-    // console.log(error);
   }
 });
 
-export const AddComment = createAsyncThunk("/AddComment", async (data) => {
-  try {
-    const res = await FetchRequest.post("comments/addcomment", data);
-    const { success, comment } = res.data;
-    console.log(comment);
+// export const AddComment = createAsyncThunk("/AddComment", async (data) => {
+//   try {
+//     const res = await FetchRequest.post("comments/addcomment", data);
+//     const { success, comment } = res.data;
+//     console.log(comment);
 
-    if (success) {
-      toast.success("Comment added successfully");
-      return;
-    }
-  } catch (error) {
-    toast.error("An error occurred");
-    console.log(error);
-  }
-});
+//     if (success) {
+//       toast.success("Comment added successfully");
+//       return;
+//     }
+//   } catch (error) {
+//     toast.error("An error occurred");
+//     console.log(error);
+//   }
+// });
 
 // export const GetAllComment = createAsyncThunk("/GetComment", async () => {
 //   try {

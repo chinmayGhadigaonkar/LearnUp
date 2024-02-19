@@ -5,7 +5,6 @@ import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { AddBlog } from "../../store/slice/blogSlice";
 import { Form, useNavigate } from "react-router-dom";
-import { ConvertToBase64 } from "../../utils/ConverToBase64";
 
 const CreateBlog = () => {
   const [description, setDescription] = useState("");
@@ -14,8 +13,6 @@ const CreateBlog = () => {
   const [readTime, setreadTime] = useState(0);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // Custom styles for ReactQuill
-  // console.log(image);
   const handleOnPost = (e) => {
     e.preventDefault();
 
@@ -28,30 +25,25 @@ const CreateBlog = () => {
       toast.warn("Description should not be blank");
       return;
     }
+    if (image === "") {
+      toast.warn("Image should not be blank");
+      return;
+    }
     // const input = new FormData();
-    // const input = new FormData();
+    const input = new FormData();
 
-    // input.append("title", title);
-    // input.append("content", description);
-    // input.append("image", image);
-    // input.append("readtime", readTime);
+    input.append("title", title);
+    input.append("content", description);
+    input.append("image", image);
+    input.append("readtime", readTime);
 
-    // console.log(input);
+    dispatch(AddBlog(input));
 
-    const data = {
-      title: title,
-      content: description,
-      image: image,
-      readtime: readTime,
-    };
-    dispatch(AddBlog(data));
-
-    // navigate("/blogs");
+    navigate("/blogs");
   };
 
   const handleOnImage = async (e) => {
     const file = e.target.files[0];
-    console.log(file);
 
     setImage(file);
   };
@@ -80,6 +72,7 @@ const CreateBlog = () => {
         <div className="lg:w-3/3  md:w-3/3  ">
           <form
             onSubmit={handleOnPost}
+            encType="multipart/form-data"
             className="flex flex-col  flex-wrap -m-2">
             <div className="p-2 md:w-5/5 w-4/5">
               <div className="">
@@ -129,7 +122,7 @@ const CreateBlog = () => {
                   type="file"
                   id="image"
                   name="image"
-                  onChange={(e) => handleOnImage(e)}
+                  onChange={handleOnImage}
                   accept="image/png, image/gif, image/jpeg"
                   className=" h-12 mt-2 "
                 />

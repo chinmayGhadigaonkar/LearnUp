@@ -26,6 +26,8 @@ const BlogPost = () => {
     }
   };
 
+  // console.log(blog.createdAt);
+
   useEffect(() => {
     GetSingleBlog(params.id);
   }, []);
@@ -38,7 +40,8 @@ const BlogPost = () => {
       <div className="container mx-auto px-4">
         <h1 className="text-4xl font-bold mb-6">{blog.title}</h1>
         <p className="text-gray-300 text-lg mb-2">
-          Published on October 5, 2023
+          {/* Published on October 5, 2023 */}
+          {new Date(blog.createdAt).toDateString()}
         </p>
         <div className="flex items-center mb-6">
           <img
@@ -46,7 +49,7 @@ const BlogPost = () => {
             alt="Author's profile"
             className="w-10 h-10 rounded-full mr-4"
           />
-          <p className="text-gray-600">By John Doe</p>
+          <p className="text-gray-600">{blog && blog.author.fullname}</p>
         </div>
         <div className="bg-white p-6 rounded-lg shadow-lg">
           <img
@@ -68,7 +71,7 @@ const BlogPost = () => {
         </div>
         <AllComment />
 
-        <div className="mt-8">
+        {/* <div className="mt-8">
           <h2 className="text-2xl font-bold text-gray-300">Likes</h2>
           <div className="mt-4 flex items-center">
             <button
@@ -78,7 +81,7 @@ const BlogPost = () => {
             </button>
             <p className="ml-4 text-gray-600">{likes} Likes</p>
           </div>
-        </div>
+        </div> */}
         <div className="mt-8">
           {!show ? (
             <button

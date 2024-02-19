@@ -105,12 +105,13 @@ const SingleQuestion = () => {
   const debouncedHandleOnDisLike = debounce(handleOnDisLike, 800);
 
   useEffect(() => {
-    if (user) {
+    if (user && question) {
       setUpVote(question.likeById.includes(user));
       setDownVote(question.dislikeById.includes(user));
     }
   }, [getUser]);
 
+  console.log(question);
   return (
     <>
       {question && (
@@ -175,6 +176,12 @@ const SingleQuestion = () => {
                     );
                   })}
               </div>
+
+              {/* <div className="flex space-x-2  items-end justify-end">
+                <h1 className="h-10 py-2 text-end font-semibold px-2 ">
+                  Asked by : {question.user.username}{" "}
+                </h1>
+              </div> */}
             </div>
           </div>
         </div>
