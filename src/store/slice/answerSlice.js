@@ -28,7 +28,10 @@ const answerSlice = createSlice({
         state.status = STATUSES.LOADING;
       }),
       builder.addCase(AddAnswer.fulfilled, (state, action) => {
-        state.answer = [...state.answer, action.payload];
+        if (action.payload) {
+          state.answer = [...state.answer, action.payload];
+        }
+        // state.answer = [...state.answer, action.payload];
         state.status = STATUSES.IDLE;
       }),
       builder.addCase(AddAnswer.rejected, (state) => {
@@ -93,9 +96,12 @@ export const AddAnswer = createAsyncThunk("/Addanswer", async (data) => {
       answer: answers,
     });
     const res = await FetchRequest.post("answer/addanswer", option);
-    const { success, answer } = res.data;
-    // console.log(answer);
-
+    const { success, answer, message } = res.data;
+    console.log(success);
+    if (!success) {
+      toast.error(message);
+      return;
+    }
     if (success) {
       toast.success("Your answer added successfully");
       return answer;

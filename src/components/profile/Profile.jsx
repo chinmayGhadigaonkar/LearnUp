@@ -1,11 +1,14 @@
 import { useUser } from "@clerk/clerk-react";
 import { NavLink, Outlet, useLocation } from "react-router-dom";
 import "../../App.css";
+import FetchRequest from "../../utils/FetchRequest";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const Profile = () => {
   const location = useLocation();
-  console.log(location.pathname.split("/")[2]);
 
+  const data = useSelector((state) => state.userProfile);
   const isActive = {
     transition: "all 0.6s ease-in-out",
     color: "white",
@@ -20,8 +23,10 @@ const Profile = () => {
   return (
     <>
       <div className=" flex-1  py-6 px-10">
-        <h1 className="text-2xl">Chinmay Ghadigaonkar</h1>
-        <p className="px-2">10 month ago</p>
+        <p className="border-2 bg-red-500 text-white w-20  text-center rounded-md h-16 flex justify-center items-center text-3xl font-bold mb-3">
+          C
+        </p>{" "}
+        <h1 className="text-2xl font-sans">Chinmay Ghadigaonkar</h1>
         <nav className="flex space-x-2  my-2">
           <NavLink
             to="/profile/main"
@@ -30,7 +35,7 @@ const Profile = () => {
             Profile
           </NavLink>
           <NavLink
-            to="/profile/activity/summary"
+            to="/profile/activity/answers"
             style={
               location.pathname.split("/")[2] === "activity" ? isActive : {}
             }
@@ -46,7 +51,6 @@ const Profile = () => {
             Setting
           </NavLink>
         </nav>
-
         <Outlet />
       </div>
     </>

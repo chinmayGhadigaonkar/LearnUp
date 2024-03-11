@@ -12,6 +12,7 @@ import {
   questionDisLike,
   questionLike,
 } from "../../store/slice/SingleQuestionSlice";
+// import { getProfileById } from "../../store/slice/userprofileSlice";
 
 const SingleQuestion = () => {
   // Timer part remaining for likes and dislikes
@@ -20,26 +21,7 @@ const SingleQuestion = () => {
   // const [question, setQuestion] = useState("");
   const getparams = useParams();
   const [user, setUser] = useState();
-
-  // const getSingleQuestion = async (id) => {
-  //   try {
-  //     const res = await FetchRequest.get(`question/getquestion/${id}`);
-  //     const { success, question } = res.data;
-
-  //     if (success) {
-  //       setQuestion(question);
-  //       setUpVote(question.likes);
-  //       setDownVote(question.dislikes);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // console.log(question.updatedAt);
-
-  // console.log(createDate);
-
+  const [profile, setProfile] = useState();
   const getUser = async () => {
     try {
       const res = await FetchRequest.get(`clerkauth/getuser`);
@@ -47,6 +29,18 @@ const SingleQuestion = () => {
       if (success) {
         setUser(users._id);
       }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getProfileById = async (id) => {
+    try {
+      const res = await FetchRequest.get(`/profile/getprofile/${id}`);
+      const { profile } = res.data;
+      console.log(profile);
+      if (profile) setProfile(profile);
+
+      return profile;
     } catch (error) {
       console.log(error);
     }
@@ -111,7 +105,15 @@ const SingleQuestion = () => {
     }
   }, [getUser]);
 
-  console.log(question);
+  useEffect(() => {
+    if (question) {
+      console.log("1111");
+      getProfileById(question.user._id);
+    }
+  }, [question]);
+  if (profile) {
+    // console.log(profile[0].typeOfUser);
+  }
   return (
     <>
       {question && (
@@ -120,13 +122,17 @@ const SingleQuestion = () => {
           <div className="flex">
             <p className="">
               {" "}
-              Asked : <span className=" font-semibold"> {formattedDate}</span>
+              Asked :{" "}
+              <span className=" font-semibold">
+                {" "}
+                {new Date(question.createdAt).toDateString()}
+              </span>
             </p>
-            <p className="px-3">
+            {/* <p className="px-3">
               {" "}
               Modified :{" "}
               <span className=" font-semibold"> {formattedDate2}</span>
-            </p>
+            </p> */}
           </div>
 
           <hr />
@@ -143,7 +149,9 @@ const SingleQuestion = () => {
                 {/* <Triangle color="#ffffff" strokeWidth={1.5} /> */}
               </button>
               <h1 className="mx-auto my-1 font-semibold  text-xl">
-                {question.likes - question.dislikes}
+                {question.likes > question.dislikes
+                  ? question.likes
+                  : -question.dislikes}
               </h1>
               <button
                 className={` mx-auto h-12 w-12 text-center shadow-md  text-black border-2 rounded-full p-2  ${
@@ -176,13 +184,35 @@ const SingleQuestion = () => {
                     );
                   })}
               </div>
-
-              {/* <div className="flex space-x-2  items-end justify-end">
-                <h1 className="h-10 py-2 text-end font-semibold px-2 ">
-                  Asked by : {question.user.username}{" "}
-                </h1>
-              </div> */}
             </div>
+          </div>
+          <div className="flex space-x-2 w-full   items-end justify-end">
+            <h1 className="h-28 w-56  py-2 border-2 bg-blue-100 rounded-md shadow-sm    font-semibold px-2  ">
+              Asked by :
+              <div className="text-blue-600 flex">
+                {" "}
+                <div className="text-blue-600 flex ">
+                  {profile[0].user && (
+                    <p className="border-2 bg-red-500 flex justify-center items-center text-white w-12 py-auto text-center rounded-md h-10 text-lg mx-1">
+                      {profile[0].user.fullname &&
+                        profile[0].user.fullname.charAt(0)}
+                    </p>
+                  )}
+                  <div className="flex flex-col border-2 w-full">
+                    <p className="border-2 text-sm ">
+                      {profile[0].user && profile[0].user.fullname}
+                    </p>
+
+                    <p className="border-2 text-sm ">
+                      {profile[0].user && profile[0].typeOfUser}
+                    </p>
+                    <p className="border-2 text-sm ">
+                      Reputation : {profile[0] && profile[0].reputation}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </h1>
           </div>
         </div>
       )}

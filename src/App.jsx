@@ -2,7 +2,7 @@ import "./App.css";
 import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "./components/common/Navbar";
 import Footer from "./components/common/Footer";
 import Home from "./pages/Home";
@@ -32,14 +32,23 @@ import QuestionActivity from "./components/profile/activity/QuestionActivity";
 import BlogActivity from "./components/profile/activity/BlogActivity";
 import Reputation from "./components/profile/activity/Reputation";
 import Summary from "./components/profile/activity/Summary";
+import { Modal } from "./components/common/modal";
+import { createProfile } from "./store/slice/userprofileSlice";
 
 const App = () => {
   const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.user);
+  const [showModal, setShowModal] = useState(false);
+
+  const [children, setChildren] = useState(<>Model</>);
   const isAuthenticate = user ? true : false;
   useEffect(() => {
     dispatch(GetAllQuestion());
+    console.log("user", user);
+    if (isAuthenticate) {
+      dispatch(createProfile());
+    }
   }, []);
 
   // const navigate = useNavigate();
@@ -48,6 +57,11 @@ const App = () => {
       <BrowserRouter>
         <ClerkProvider publishableKey={VITE_CLERK_PUBLISHABLE_KEY}>
           <Navbar />
+          <Modal
+            children={children}
+            showModal={showModal}
+            setShowModal={setShowModal}
+          />
           <ToastContainer
             position="top-right"
             autoClose={5000}

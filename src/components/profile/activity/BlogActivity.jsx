@@ -2,29 +2,34 @@ import { Pencil, Trash2 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import FetchRequest from "../../../utils/FetchRequest";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteBlog } from "../../../store/slice/userprofileSlice";
 
 const BlogActivity = () => {
-  const [blog, setBlog] = useState();
-  const FetchData = async () => {
-    try {
-      const res = await FetchRequest.get(`/blog/getuserblog`);
-      const { blog } = res.data;
-      console.log(blog);
-      setBlog(blog);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const { blog } = useSelector((state) => state.userprofile);
 
-  useEffect(() => {
-    FetchData();
-  }, []);
+  const dispatch = useDispatch();
+  // const [blog, setBlog] = useState();
+  // const FetchData = async () => {
+  //   try {
+  //     const res = await FetchRequest.get(`/blog/getuserblog`);
+  //     const { blog } = res.data;
+  //     console.log(blog);
+  //     setBlog(blog);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   FetchData();
+  // }, []);
   return (
     <>
       <div className="flex-1">
         <div className="w-full">
           <h1 className="p-2 text-lg text-black font-semibold">
-            blog {blog && blog.length}
+            Blog {blog && blog.length}
           </h1>{" "}
           <div className="border-2 py-4 px-2 m-2 space-y-4 h-full">
             {blog && blog.length === 0 ? (
@@ -44,19 +49,23 @@ const BlogActivity = () => {
                   <div className="flex justify-between">
                     <div>
                       <h1 className="text-lg hover:text-red-500 cursor-pointer text-black font-semibold">
-                        <Link to={`/singleblog/${data._id}`}>{data.title}</Link>
+                        <Link to={`/BlogPost/${data._id}`}>{data.title}</Link>
                       </h1>
                       {/* <p>Votes {data.likes - data.dislikes} </p> */}
                     </div>
                     <div className="flex justify-center items-center">
-                      <button className="cursor-pointer border-2 rounded-md bg-black flex px-2 py-2 w-25">
+                      {/* <button className="cursor-pointer border-2 rounded-md bg-black flex px-2 py-2 w-25">
                         <p className="text-white text-sm"> Edit </p>
                         <span className="px-1 py-0.5s">
                           {" "}
                           <Pencil color="white" size={16} />{" "}
                         </span>
-                      </button>
-                      <button className="cursor-pointer border-2 rounded-md bg-black flex px-2 py-2 w-25">
+                      </button> */}
+                      <button
+                        onClick={() => {
+                          dispatch(deleteBlog(data._id));
+                        }}
+                        className="cursor-pointer border-2 rounded-md bg-black flex px-2 py-2 w-25">
                         <p className="text-white text-sm"> Delete </p>
                         <span className="px-1 py-0.5s">
                           {" "}

@@ -69,11 +69,12 @@ const Answer = () => {
     }
   }, [user, answer]);
 
+  // console.log(answer[0].user.fullname);
   // console.log(answer[0].user.username);
   return (
     <div className="px-2">
       <h1 className="text-2xl py-2  px-2 font-semibold">
-        {answer.length} Answer
+        {answer && answer.length} Answer
       </h1>
       {answer &&
         answer.map((item) => {
@@ -122,6 +123,19 @@ const Answer = () => {
                     Answer by : {answer[0].user.username}{" "}
                   </h1>
                 </div> */}
+              </div>
+              <div className="flex space-x-2 w-full   items-end justify-end">
+                <h1 className="h-24 w-40  py-2 border-2 bg-blue-100 rounded-md shadow-sm    font-semibold px-2 ">
+                  Answer by :
+                  <div className="text-blue-600 flex">
+                    {" "}
+                    <p className="border-2 flex justify-center items-center bg-red-500 text-white w-12 py-auto text-center rounded-md h-10 text-lg mx-1">
+                      {answer[0].user.fullname &&
+                        answer[0].user.fullname.charAt(0)}
+                    </p>{" "}
+                    {answer[0].user.username && answer[0].user.username}{" "}
+                  </div>
+                </h1>
               </div>
               <hr />
             </div>

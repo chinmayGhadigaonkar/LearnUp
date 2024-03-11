@@ -4,6 +4,7 @@ import questionSlice from "./slice/questionSlice";
 import answerSlice from "./slice/answerSlice";
 import blogSlice from "./slice/blogSlice";
 import SingleQuestionSlice from "./slice/SingleQuestionSlice";
+import profileSlice from "./slice/userprofileSlice";
 import commentSlice from "./slice/commentSlice";
 
 const store = configureStore({
@@ -14,6 +15,7 @@ const store = configureStore({
     blog: blogSlice,
     comment: commentSlice,
     singleQuestion: SingleQuestionSlice,
+    userprofile: profileSlice,
   },
 });
 

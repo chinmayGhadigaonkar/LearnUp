@@ -29,7 +29,15 @@ const singleQuestionSlice = createSlice({
       state.status = STATUSES.LOADING;
     });
     builder.addCase(questionLike.fulfilled, (state, action) => {
-      state.question = action.payload;
+      const { likes, dislikes, likeById, dislikeById } = action.payload;
+
+      state.question = {
+        ...state.question,
+        likes,
+        dislikes,
+        likeById,
+        dislikeById,
+      };
 
       state.status = STATUSES.IDLE;
     });
@@ -40,6 +48,15 @@ const singleQuestionSlice = createSlice({
       state.status = STATUSES.LOADING;
     });
     builder.addCase(questionDisLike.fulfilled, (state, action) => {
+      const { likes, dislikes, likeById, dislikeById } = action.payload;
+
+      state.question = {
+        ...state.question,
+        likes,
+        dislikes,
+        likeById,
+        dislikeById,
+      };
       state.question = action.payload;
 
       state.status = STATUSES.IDLE;

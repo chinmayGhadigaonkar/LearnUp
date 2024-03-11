@@ -15,7 +15,7 @@ const Sidebar = () => {
 
   return (
     <aside className="w-56 h-full p-2">
-      <NavLink
+      {/* <NavLink
         to="/profile/activity/summary"
         href="#"
         style={
@@ -23,7 +23,7 @@ const Sidebar = () => {
         }
         className="block p-2 mb-2  hover:rounded-2xl hover:bg-slate-100  hover:border-2 hover:border-slate-100   w-36 ">
         Summary
-      </NavLink>
+      </NavLink> */}
       <NavLink
         to="/profile/activity/answers"
         href="#"
@@ -49,7 +49,7 @@ const Sidebar = () => {
         className="block p-2 mb-2  hover:rounded-2xl hover:bg-slate-100  hover:border-2 hover:border-slate-100   w-36 ">
         Blog
       </NavLink>
-      <NavLink
+      {/* <NavLink
         to="/profile/activity/reputation"
         href="#"
         style={
@@ -57,7 +57,7 @@ const Sidebar = () => {
         }
         className="block p-2 mb-2  hover:rounded-2xl hover:bg-slate-100  hover:border-2 hover:border-slate-100   w-36 ">
         Reputation
-      </NavLink>
+      </NavLink> */}
     </aside>
   );
 };

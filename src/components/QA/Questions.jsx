@@ -23,9 +23,9 @@ const Questions = ({ que }) => {
         <div className=" w- flex  items-center space-x-10 my-auto ">
           <div className="my-4 pl-4">
             <div className="votes text-black text-xl">
-              {likes - dislikes} Votes
+              {likes > dislikes ? likes : -dislikes} Votes
             </div>
-            <div className="Answer text-black"> 0 Answer</div>
+            {/* <div className="Answer text-black"> 0 Answer</div> */}
           </div>
           <div className="mt-4 w-full">
             <div className="head-question text-black font-semibold  text-xl my-1">

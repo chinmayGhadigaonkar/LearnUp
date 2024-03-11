@@ -68,7 +68,7 @@ const Navbar = () => {
           </Link>
           <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
             <Link
-              className="mr-5 h text-gray-900 font-semibold  text-lg hover:text-lg transition-all  px-1  hover:delay-100 hover:text-red-500 "
+              className="mr-5 text-gray-900 font-semibold  text-lg hover:text-lg transition-all  px-1  hover:delay-100 hover:text-red-500 "
               to="/allquestion">
               Questions
             </Link>
@@ -84,8 +84,8 @@ const Navbar = () => {
             </Link>
             <Link
               className="mr-5  text-gray-900 font-semibold  text-lg hover:text-lg transition-all  px-1  hover:delay-100 hover:text-red-500 "
-              to="/contactus">
-              Contact Us
+              to="/profile/main">
+              Profile
             </Link>
           </nav>
           {/* 

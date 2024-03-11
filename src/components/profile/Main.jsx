@@ -1,14 +1,52 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import FetchRequest from "../../utils/FetchRequest";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getProfile,
+  getProfileAnswer,
+  getProfileBlog,
+  getProfileQuestion,
+} from "../../store/slice/userprofileSlice";
 
 const ProfileMain = () => {
+  const { user, questions, answer, blog } = useSelector(
+    (state) => state.userprofile,
+  );
+  const dispatch = useDispatch();
+
+  const [userData, setUserData] = useState();
+  const fetchData = async () => {
+    try {
+      const res = await FetchRequest.get("/profile/getprofile");
+      const { profile } = res.data;
+      // console.log(profile);
+      setUserData(profile);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  // console.log(user + "  " + questions + " " + answer + " " + blog);
+
+  console.log(user);
+  useEffect(() => {
+    fetchData();
+    dispatch(getProfile());
+    dispatch(getProfileQuestion());
+    dispatch(getProfileAnswer());
+    dispatch(getProfileBlog());
+  }, []);
+  // console.log(userData[0].reputation);
+  // console.log(user[0].bio);
   return (
     <div>
-      <div className="md:flex md:space-x-2">
-        <div className="">
+      <div className="md:flex md:flex-col md:space-x-2">
+        <div className="order-2">
           <h1 className=" font-medium text-xl py-2">Stats :</h1>
           <div className="md:hidden border-2 flex w-full md:w-81 h-20 my-auto ">
             <div className="mr-auto w-1/5  my-auto ">
-              <h1 className="text-start px-2">1</h1>
+              <h1 className="text-start px-2">
+                {/* {userData[0] && userData[0].reputation} +++66 */}1
+              </h1>
               <p className="text-start px-2">Reputation</p>
             </div>
             <div className="mr-auto w-1/5  my-auto  ">
@@ -26,31 +64,33 @@ const ProfileMain = () => {
             </div>
           </div>
 
-          <div className="hidden border-2 rounded-lg border-gray-200 px-1 md:grid md:grid-cols-2 w-72 md:w-81 h-36  my-auto gap-4">
+          <div className="hidden order-2 border-2 rounded-lg border-gray-200 px-1 md:grid md:grid-cols-2 w-72 md:w-81 h-36  my-auto gap-4">
             <div className="my-auto">
-              <h1 className="text-start px-2">1</h1>
+              <h1 className="text-start px-2">{user && user[0].reputation}</h1>
               <p className="text-start px-2">Reputation</p>
             </div>
             <div className="my-auto">
-              <h1 className="text-start px-2">1</h1>
+              <h1 className="text-start px-2">
+                {questions && questions.length}
+              </h1>
               <p className="text-start px-2">Question</p>
             </div>
 
             <div className="my-auto">
-              <h1 className="text-start px-2">1</h1>
+              <h1 className="text-start px-2">{answer && answer.length}</h1>
               <p className="text-start px-2">Answer</p>
             </div>
             <div className="my-auto">
-              <h1 className="text-start px-2">1</h1>
+              <h1 className="text-start px-2">{blog && blog.length}</h1>
               <p className="text-start px-2">Blog</p>
             </div>
           </div>
         </div>
 
         <div>
-          <div className="">
+          <div className="order-1">
             <h1 className=" font-medium text-xl py-2">About :</h1>
-            <div className="border-2 flex w-full rounded-lg h-40 py-5 my-auto  bg-red-50">
+            {/* <div className="border-2 flex w-full rounded-lg h-40 py-5 my-auto  bg-red-50">
               <h1 className="text-center w-72 mx-auto my-auto text-black text-sm">
                 Your about me section is currently blank. Would you like to add
                 one?{" "}
@@ -60,16 +100,38 @@ const ProfileMain = () => {
                   Edit profile
                 </span>
               </h1>
+            </div> */}
+
+            <div>
+              {user && user[0].bio ? (
+                <div className="flex w-full rounded-lg  py-1  my-auto  ">
+                  <h1 className="  text-black text-md font-serif">
+                    {user && user[0].bio}
+                  </h1>
+                </div>
+              ) : (
+                <div className="border-2 flex w-full rounded-lg h-40 py-5 my-auto  bg-red-50">
+                  <h1 className="text-center w-72 mx-auto my-auto text-black text-sm">
+                    Your about me section is currently blank. Would you like to
+                    add one?{" "}
+                    <span
+                      className=" underline text-blue-600 hover:text-black hover:cursor-pointer 
+          ">
+                      Edit profile
+                    </span>
+                  </h1>
+                </div>
+              )}
             </div>
           </div>
 
-          <div className="">
+          {/* <div className="">
             <h1 className=" font-medium text-xl py-2">Post :</h1>
             <div className="border-2 flex w-full rounded-lg  h-96 py-5 my-auto  bg-red-50">
               <div className="flex w-full flex-col items-center justify-center space-y-4">
                 <svg
                   aria-hidden="true"
-                  class="mb24 svg-spot spotEmptyXL"
+                  className="mb24 svg-spot spotEmptyXL"
                   width="196"
                   height="196"
                   viewBox="0 0 196 196">
@@ -91,7 +153,7 @@ const ProfileMain = () => {
                 </p>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

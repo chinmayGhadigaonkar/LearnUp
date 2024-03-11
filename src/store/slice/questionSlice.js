@@ -77,6 +77,24 @@ export const CreateQuestion = createAsyncThunk(
   },
 );
 
+export const DeleteQuestion = createAsyncThunk(
+  "/DeleteQuestion",
+  async (id) => {
+    try {
+      const res = await FetchRequest.delete(`question/deletequestion/${id}`);
+      const { success, msg } = res.data;
+
+      if (success) {
+        toast.success("Question deleted successfully");
+      } else {
+        toast.error(msg);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  },
+);
+
 // export const questionLike = createAsyncThunk("/LikeQuestion", async (id) => {
 //   try {
 //     const res = await FetchRequest.put(`question/questionlikes/${id}`);
