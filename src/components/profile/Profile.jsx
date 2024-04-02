@@ -8,7 +8,9 @@ import { useSelector } from "react-redux";
 const Profile = () => {
   const location = useLocation();
 
-  const data = useSelector((state) => state.userProfile);
+  const { user, questions, answer, blog } = useSelector(
+    (state) => state.userprofile,
+  );
   const isActive = {
     transition: "all 0.6s ease-in-out",
     color: "white",
@@ -19,14 +21,15 @@ const Profile = () => {
     marginBottom: "5px",
     borderRadius: "15px",
   };
+  // console.log(user[0].user.fullname[0]);
 
   return (
     <>
       <div className=" flex-1  py-6 px-10">
         <p className="border-2 bg-red-500 text-white w-20  text-center rounded-md h-16 flex justify-center items-center text-3xl font-bold mb-3">
-          C
+          {user && user[0].user.fullname[0]}
         </p>{" "}
-        <h1 className="text-2xl font-sans">Chinmay Ghadigaonkar</h1>
+        <h1 className="text-2xl font-sans">{user && user[0].user.fullname}</h1>
         <nav className="flex space-x-2  my-2">
           <NavLink
             to="/profile/main"
@@ -42,14 +45,14 @@ const Profile = () => {
             className="list-none border-2 w-fit px-2 py-1 rounded-2xl cursor-pointer text-md">
             Activity
           </NavLink>
-          <NavLink
+          {/* <NavLink
             to="/profile/setting"
             style={
               location.pathname.split("/")[2] === "setting" ? isActive : {}
             }
             className="list-none border-2 w-fit px-2 py-1 rounded-2xl cursor-pointer text-md">
             Setting
-          </NavLink>
+          </NavLink> */}
         </nav>
         <Outlet />
       </div>

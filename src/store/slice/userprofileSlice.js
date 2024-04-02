@@ -14,6 +14,7 @@ const profileSlice = createSlice({
     questions: [],
     answer: [],
     blog: [],
+    status: STATUSES.IDLE,
   },
   extraReducers: (builder) => {
     builder.addCase(getProfile.pending, (state, action) => {
@@ -97,6 +98,19 @@ const profileSlice = createSlice({
       builder.addCase(deleteBlog.rejected, (state, action) => {
         state.status = STATUSES.ERROR;
       });
+    builder.addCase(updateProfile.pending, (state, action) => {
+      state.status = STATUSES.LOADING;
+    }),
+      builder.addCase(updateProfile.fulfilled, (state, action) => {
+        // console.log(action.payload.bio);
+        // state.user = action.payload;
+        state.user[0].bio = action.payload.bio;
+
+        state.status = STATUSES.IDLE;
+      }),
+      builder.addCase(updateProfile.rejected, (state, action) => {
+        state.status = STATUSES.ERROR;
+      });
   },
 });
 
@@ -124,18 +138,22 @@ export const createProfile = createAsyncThunk(
   },
 );
 
-// export const updateProfile = createAsyncThunk(
-//   "profile/updateProfile",
-//   async (data) => {
-//     try {
-//       const res = await FetchRequest.put("/profile/updateprofile", data);
-//       const { profile } = res.data;
-//       return profile;
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   },
-// );
+export const updateProfile = createAsyncThunk(
+  "profile/updateProfile",
+  async (data) => {
+    try {
+      const res = await FetchRequest.put("/profile/editprofile", data);
+      const { profile } = res.data;
+      if (!profile) {
+        toast.error("Profile not updated");
+      }
+      toast.success("Profile updated successfully");
+      return profile;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+);
 
 export const getProfileQuestion = createAsyncThunk(
   "profile/getProfileQuestion ",

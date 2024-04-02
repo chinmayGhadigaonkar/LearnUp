@@ -29,12 +29,12 @@ const AnswerActivity = () => {
           ) : (
             answer &&
             answer.map((data) => (
-              <>
-                <div key={data._id} className="flex justify-between">
+              <div key={data._id}>
+                <div className="flex justify-between">
                   <div>
                     <h1 className="text-lg hover:text-red-500 cursor-pointer text-black font-medium">
                       <span className="font-bold">Question : </span>{" "}
-                      {data.question.title}
+                      {/* {data.question.title} */}
                     </h1>
                     <h1 className="text-lg cursor-pointer text-black font-medium">
                       <span className="font-bold">Answer : </span>{" "}
@@ -71,7 +71,7 @@ const AnswerActivity = () => {
                   </div>
                 </div>
                 <hr className="border-1 border-black " />
-              </>
+              </div>
             ))
           )}
         </div>

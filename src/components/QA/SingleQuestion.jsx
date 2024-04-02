@@ -37,7 +37,7 @@ const SingleQuestion = () => {
     try {
       const res = await FetchRequest.get(`/profile/getprofile/${id}`);
       const { profile } = res.data;
-      console.log(profile);
+      // console.log(profile);
       if (profile) setProfile(profile);
 
       return profile;
@@ -66,23 +66,7 @@ const SingleQuestion = () => {
   // const downVote = user && question.dislikeById.includes(user);
 
   const { question } = useSelector((state) => state.singleQuestion);
-
-  const originalTimestamp = new Date(question.updatedAt);
-  const originalTimestamp2 = new Date(question.createdAt);
-
-  const options = {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-    timeZone: "Asia/Kolkata",
-  };
-  const formattedDate = originalTimestamp.toLocaleDateString("en-US", options);
-  const formattedDate2 = originalTimestamp2.toLocaleDateString(
-    "en-US",
-    options,
-  );
+  const { answer } = useSelector((state) => state.answer);
 
   const dispatch = useDispatch();
   const handleOnLike = (id) => {
@@ -95,8 +79,8 @@ const SingleQuestion = () => {
 
     // dispatch(GetAllAnswer());
   };
-  const debouncedHandleOnLike = debounce(handleOnLike, 800);
-  const debouncedHandleOnDisLike = debounce(handleOnDisLike, 800);
+  const debouncedHandleOnLike = debounce(handleOnLike, 100);
+  const debouncedHandleOnDisLike = debounce(handleOnDisLike, 100);
 
   useEffect(() => {
     if (user && question) {
@@ -106,14 +90,13 @@ const SingleQuestion = () => {
   }, [getUser]);
 
   useEffect(() => {
-    if (question) {
-      console.log("1111");
+    if (question && question.user && question.user._id) {
       getProfileById(question.user._id);
+    } else if (question && question.user) {
+      getProfileById(question.user);
     }
-  }, [question]);
-  if (profile) {
-    // console.log(profile[0].typeOfUser);
-  }
+  }, [question, answer]);
+
   return (
     <>
       {question && (
@@ -186,34 +169,39 @@ const SingleQuestion = () => {
               </div>
             </div>
           </div>
-          <div className="flex space-x-2 w-full   items-end justify-end">
-            <h1 className="h-28 w-56  py-2 border-2 bg-blue-100 rounded-md shadow-sm    font-semibold px-2  ">
-              Asked by :
-              <div className="text-blue-600 flex">
-                {" "}
-                <div className="text-blue-600 flex ">
-                  {profile[0].user && (
-                    <p className="border-2 bg-red-500 flex justify-center items-center text-white w-12 py-auto text-center rounded-md h-10 text-lg mx-1">
-                      {profile[0].user.fullname &&
-                        profile[0].user.fullname.charAt(0)}
-                    </p>
-                  )}
-                  <div className="flex flex-col border-2 w-full">
-                    <p className="border-2 text-sm ">
-                      {profile[0].user && profile[0].user.fullname}
-                    </p>
+          {profile && profile[0].user && (
+            <div className="flex space-x-2 w-full   items-end justify-end">
+              <h1 className="h-32 w-56  py-2 border-2 bg-blue-100 rounded-md shadow-sm    font-semibold px-2  ">
+                Asked by :
+                <div className="text-blue-600 flex">
+                  {" "}
+                  <div className="text-blue-600 flex ">
+                    {profile[0].user && (
+                      <p className=" bg-red-500 flex justify-center items-center text-white w-12 py-auto text-center rounded-md h-10 text-lg mx-1">
+                        {profile[0].user.fullname &&
+                          profile[0].user.fullname.charAt(0)}
+                      </p>
+                    )}
+                    <div className="flex flex-col border-2 w-full">
+                      <p className=" text-sm ">
+                        {profile[0].user &&
+                          profile[0].user.fullname.slice(0, 18) + "...."}
+                      </p>
 
-                    <p className="border-2 text-sm ">
-                      {profile[0].user && profile[0].typeOfUser}
-                    </p>
-                    <p className="border-2 text-sm ">
-                      Reputation : {profile[0] && profile[0].reputation}
-                    </p>
+                      <p className="text-sm ">
+                        {profile[0].user &&
+                          profile[0].typeOfUser.charAt(0).toUpperCase() +
+                            profile[0].typeOfUser.slice(1)}
+                      </p>
+                      <p className="text-sm ">
+                        Reputation : {profile[0] && profile[0].reputation}
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </h1>
-          </div>
+              </h1>
+            </div>
+          )}
         </div>
       )}
 

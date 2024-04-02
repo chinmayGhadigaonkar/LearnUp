@@ -20,7 +20,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { GetAllQuestion } from "./store/slice/questionSlice";
 import ProtectedRoutes from "./components/common/ProtectedRoutes";
 import { VITE_CLERK_PUBLISHABLE_KEY } from "./utils/config";
-import { ClerkProvider, SignUp, useUser } from "@clerk/clerk-react";
+import { ClerkProvider, SignUp, useAuth, useUser } from "@clerk/clerk-react";
 import SignInPage from "./pages/SignIn";
 import { removeUser } from "./store/slice/userSlice";
 import Profile from "./components/profile/Profile";
@@ -33,7 +33,13 @@ import BlogActivity from "./components/profile/activity/BlogActivity";
 import Reputation from "./components/profile/activity/Reputation";
 import Summary from "./components/profile/activity/Summary";
 import { Modal } from "./components/common/modal";
-import { createProfile } from "./store/slice/userprofileSlice";
+import {
+  createProfile,
+  getProfile,
+  getProfileAnswer,
+  getProfileBlog,
+  getProfileQuestion,
+} from "./store/slice/userprofileSlice";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -42,13 +48,29 @@ const App = () => {
   const [showModal, setShowModal] = useState(false);
 
   const [children, setChildren] = useState(<>Model</>);
+
+  // const { isSignedIn } = useAuth();
+
   const isAuthenticate = user ? true : false;
   useEffect(() => {
     dispatch(GetAllQuestion());
-    console.log("user", user);
-    if (isAuthenticate) {
-      dispatch(createProfile());
-    }
+    console.log(isAuthenticate);
+    // if (localStorage.getItem("auth-token") && !isSignedIn) {
+    //   console.log("remove user");
+    //   dispatch(removeUser());
+    // }
+  }, []);
+  // useEffect(() => {
+  //   if (isAuthenticate) {
+  //     dispatch(createProfile());
+  //   }
+  // }),
+  //   [0];
+  useEffect(() => {
+    dispatch(getProfile());
+    dispatch(getProfileQuestion());
+    dispatch(getProfileAnswer());
+    dispatch(getProfileBlog());
   }, []);
 
   // const navigate = useNavigate();

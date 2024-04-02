@@ -23,6 +23,9 @@ const AnsForm = ({ id }) => {
     }
 
     dispatch(AddAnswer(data));
+    // dispatch(data.questionId);
+    // window.location.reload();
+    // toast.success("Answer Added Successfully");
     setEditorValue("");
   };
 
